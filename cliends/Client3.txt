@@ -1,0 +1,15 @@
+B
+R N 241   
+W E 10 p 
+R P 220   
+R L 122   
+W Y 241 X 
+D M     
+W E 9 e 
+R S 108   
+R U 72   
+W K 121 C 
+D Q     
+R D 86   
+W W 35 h 
+C

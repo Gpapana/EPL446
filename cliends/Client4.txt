@@ -1,0 +1,17 @@
+B
+W A 150 k 
+R N 15   
+D K     
+R L 16   
+D G     
+W B 2 C 
+W Z 194 F 
+R R 116   
+R E 222   
+W R 102 z 
+W L 122 H 
+W C 20 T 
+D X     
+R Z 224   
+W W 84 R 
+C
