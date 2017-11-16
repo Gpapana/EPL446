@@ -3,6 +3,7 @@ public class client extends Thread{
 
 	//////////////////////////////////////////////////////////////////////
 	
+	
 	public void run(){
 		Database.threadNum++;
 		int id=Database.threadNum;
