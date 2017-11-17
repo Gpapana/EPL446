@@ -8,13 +8,26 @@ public class client extends Thread{
 		Database.threadNum++;
 		int id=Database.threadNum;
 		int ts=0;
-		
-		for (int i=0; i<2000; i++){
+		//loginput input = null;
+				
+		for (int i=0; i<2000; i++){//re ti en touto? TODO
 			int p=i;
 		}
 		
 		for (int i=0; i<Database.actions[id-1].length; i++){
+			
+
+			
 			ts=print(ts, id, Database.actions[id-1][i], i);
+			
+			//input.id=i;
+			//input.command=
+			
+			
+			//Database.log.add(new loginput());
+			
+			
+			
 			if (i%10==0){
 				yield();
 			}
@@ -30,8 +43,7 @@ public class client extends Thread{
 			return ts;
 		}
 		par = s.split(" ");
-		
-		Database.timestamp++;
+		Database.timestamp++;	
 		if (i==0){
 			ts=Database.timestamp;
 		}

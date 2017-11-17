@@ -1,10 +1,12 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Database {
 
+public class Database {
+	
 	static private char[] A = new char[256];
 	static private char[] B = new char[256];
 	static private char[] C = new char[256];
@@ -34,6 +36,10 @@ public class Database {
 	static String[][] actions;
 	static int threadNum=0;
 	static int timestamp=0;
+	
+	public static ArrayList<loginput> log = new ArrayList<loginput>();
+	
+	
 		
 	public static void main(String[] args) {
 
@@ -43,6 +49,8 @@ public class Database {
 		sc.close();
 		
 		actions = new String[num][20];
+		
+		
 		
 		for (int i=0; i<num; i++){
 			File fl = new File ("cliends/client"+(i+1)+".txt");
