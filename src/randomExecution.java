@@ -12,7 +12,7 @@ public class randomExecution {
 		int numClient=num.nextInt(8)+3;
 
 		for(int i=0;i<numClient;i++){
-			String filename="Client";
+			String filename="cliends/Client";
 			String fnum=new Integer(i+1).toString();
 			String fullname=filename+fnum+".txt";
 			File f=new File(fullname);
