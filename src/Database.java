@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 
 public class Database {
+	
 	static private char[] A = new char[256];
 	static private char[] B = new char[256];
 	static private char[] C = new char[256];
@@ -32,15 +33,43 @@ public class Database {
 	static private char[] X = new char[256];
 	static private char[] Y = new char[256];
 	static private char[] Z = new char[256];
-	
 	static String[][] actions;
 	static int threadNum=0;
 	static int timestamp=0;
 	
 	public static ArrayList<loginput> log = new ArrayList<loginput>();
-	
+		
 	public static void main(String[] args) {
 
+		for (int i=0; i<A.length; i++){
+			A[i]=' ';
+			B[i]=' ';
+			C[i]=' ';
+			D[i]=' ';
+			E[i]=' ';
+			F[i]=' ';
+			G[i]=' ';
+			H[i]=' ';
+			I[i]=' ';
+			J[i]=' ';
+			K[i]=' ';
+			L[i]=' ';
+			M[i]=' ';
+			N[i]=' ';
+			O[i]=' ';
+			P[i]=' ';
+			Q[i]=' ';
+			R[i]=' ';
+			S[i]=' ';
+			T[i]=' ';
+			U[i]=' ';
+			V[i]=' ';
+			W[i]=' ';
+			X[i]=' ';
+			Y[i]=' ';
+			Z[i]=' ';
+		}
+		
 		Scanner sc=new Scanner(System.in);
 		System.out.println("Number of cliends?");
 		int num=sc.nextInt();

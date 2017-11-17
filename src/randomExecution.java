@@ -26,7 +26,7 @@ public class randomExecution {
 				}
 			}
 			for(int j=0;j<Tnum;j++){
-				int T=num.nextInt(3);
+				/*int T=num.nextInt(3);
 				switch(T){
 				case 0: Ts[j][0]="R";
 				break;
@@ -34,7 +34,19 @@ public class randomExecution {
 				break;
 				default: Ts[j][0]="D";
 				break;
+				}*/
+				double T=num.nextDouble();
+				
+				if(T>=0.9){
+					Ts[j][0]="D";
 				}
+				else if(T>=0.6){
+					Ts[j][0]="W";
+				}
+				else{
+					Ts[j][0]="R";
+				}
+				
 				int data=num.nextInt(26)+65;
 				char temp=(char)data;
 				Ts[j][1]=Character.toString(temp);

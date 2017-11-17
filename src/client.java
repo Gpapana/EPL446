@@ -7,21 +7,13 @@ public class client extends Thread{
 		Database.threadNum++;
 		int id=Database.threadNum;
 		int ts=0;
-		//loginput input = null;
 				
-		for (int i=0; i<20; i++){//re ti en touto? TODO
+		for (int i=0; i<2000; i++){ //NA POSKOLIOUNTE LIO TA trasactions PRIN KSEKINISOUN DOULIA
 			int p=i;
 		}
 		
 		for (int i=0; i<Database.actions[id-1].length; i++){
-			
 			ts=print(ts, id, Database.actions[id-1][i], i);
-			
-			//input.id=i;
-			//input.command=
-			
-			//Database.log.add(new loginput());
-			
 			if (i%10==0){
 				yield();
 			}
@@ -37,17 +29,53 @@ public class client extends Thread{
 			return ts;
 		}
 		par = s.split(" ");
+		
 		Database.timestamp++;	
 		if (i==0){
 			ts=Database.timestamp;
 		}
 		
-		System.out.print(Database.timestamp+" cliend"+id+" T"+id+"="+ts+" ");
-		for (int j=0; j<par.length; j++){
-			System.out.print(par[j]+" ");
-		}
-		System.out.println();
+		loginput input = new loginput();
+		input.id=Database.timestamp;
+		input.transactionNum=id;
 		
+		
+		for (int j=0; j<par.length; j++){
+			if (j==0){
+				input.command=par[0].charAt(0);
+			}
+			if (j==1){
+				input.document=par[1].charAt(0);
+			}
+			if (j==2){
+				input.position=Integer.parseInt(par[2]);
+			}
+			if (j==3){
+				input.value=par[3].charAt(0);
+			}
+		}
+		
+		input.TS=ts;
+		
+		Database.log.add(input);
+		
+		System.out.print(input.id+" client"+input.transactionNum+" TS="+input.TS+" ");
+		if (input.command=='B' || input.command=='C' || input.command=='A'){
+			System.out.println(input.command);
+		}
+		if (input.command=='D'){
+			System.out.println(input.command+" "+input.document);
+		}
+		if (input.command=='W' || input.command=='R'){
+			System.out.println(input.command+" "+input.document+" "+input.position+" "+input.value);
+		}
+			
+//		System.out.print(Database.timestamp+" cliend"+id+" T"+id+"="+ts+" ");
+//		for (int j=0; j<par.length; j++){
+//			System.out.print(par[j]+" ");
+//		}
+//		System.out.println();
+
 		return ts;
 	}
 }
