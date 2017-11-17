@@ -3,30 +3,24 @@ public class client extends Thread{
 
 	//////////////////////////////////////////////////////////////////////
 	
-	
 	public void run(){
 		Database.threadNum++;
 		int id=Database.threadNum;
 		int ts=0;
 		//loginput input = null;
 				
-		for (int i=0; i<2000; i++){//re ti en touto? TODO
+		for (int i=0; i<20; i++){//re ti en touto? TODO
 			int p=i;
 		}
 		
 		for (int i=0; i<Database.actions[id-1].length; i++){
-			
-
 			
 			ts=print(ts, id, Database.actions[id-1][i], i);
 			
 			//input.id=i;
 			//input.command=
 			
-			
 			//Database.log.add(new loginput());
-			
-			
 			
 			if (i%10==0){
 				yield();

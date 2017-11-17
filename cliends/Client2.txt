@@ -1,12 +1,6 @@
 B
-D J     
-R T 241   
-D Z     
-D S     
-D X     
-D O     
-D P     
-W C 101 l 
-D H     
-W V 248 A 
-A
+R S 141   
+W Z 185 b 
+R T 105   
+R D 115   
+C

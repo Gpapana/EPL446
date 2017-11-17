@@ -1,20 +1,7 @@
 B
-W S 11 e 
-R W 86   
-R D 221   
-D X     
-D N     
-W U 210 n 
-R I 196   
-R D 232   
-R X 225   
-D T     
-W S 218 v 
-R S 187   
-D F     
-R I 139   
-D H     
-R O 107   
-R T 160   
-W L 209 k 
+R B 64   
+W M 83 w 
+R G 184   
+R Z 182   
+R G 26   
 C

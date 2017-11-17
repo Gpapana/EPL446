@@ -1,4 +1,3 @@
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -12,7 +11,7 @@ public class randomExecution {
 		int numClient=num.nextInt(8)+3;
 
 		for(int i=0;i<numClient;i++){
-			String filename="Client";
+			String filename="cliends/Client";
 			String fnum=new Integer(i+1).toString();
 			String fullname=filename+fnum+".txt";
 			File f=new File(fullname);
@@ -26,7 +25,7 @@ public class randomExecution {
 				}
 			}
 			for(int j=0;j<Tnum;j++){
-				int T=num.nextInt(3);
+				/*int T=num.nextInt(3);
 				switch(T){
 				case 0: Ts[j][0]="R";
 				break;
@@ -34,7 +33,19 @@ public class randomExecution {
 				break;
 				default: Ts[j][0]="D";
 				break;
+				}*/
+				double T=num.nextDouble();
+
+				if(T>=0.9){
+					Ts[j][0]="D";
 				}
+				else if(T>=0.6){
+					Ts[j][0]="W";
+				}
+				else{
+					Ts[j][0]="R";
+				}
+
 				int data=num.nextInt(26)+65;
 				char temp=(char)data;
 				Ts[j][1]=Character.toString(temp);
@@ -54,15 +65,15 @@ public class randomExecution {
 						temp=(char)data;
 						Ts[j][3]=Character.toString(temp);
 					}
-					
+
 				}
 				for(int k=0;k<4;k++){
 					writer.print(Ts[j][k]+" ");
 				}
 				writer.println();
 			}
-			
-			
+
+
 			int com=num.nextInt(2);
 			if(com==1){
 				writer.print("C");
@@ -72,9 +83,9 @@ public class randomExecution {
 			}
 			writer.close();
 		}
-		
-		
-		
+
+
+
 	}
 
 }
