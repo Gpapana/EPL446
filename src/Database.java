@@ -106,7 +106,7 @@ public class Database/* extends Menu*/ {
 	static private char[] X = new char[256];
 	static private char[] Y = new char[256];
 	static private char[] Z = new char[256];
-
+	static client[] c;
 	static String[][] actions;
 	static int threadNum=0;
 	static int timestamp=0;
@@ -184,10 +184,11 @@ public class Database/* extends Menu*/ {
 
 		// SOURTES
 		
+		c = new client[num]; 
 		
-
 		for (int i=0; i<num; i++){
-			new client().start();
+			c[i] = new client();
+			c[i].start();
 		}
 		
 		for (int i=0; i<num; i++){
