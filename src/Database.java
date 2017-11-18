@@ -38,6 +38,23 @@ public class Database {
 	static int timestamp=0;
 	
 	public static ArrayList<loginput> log = new ArrayList<loginput>();
+	
+	static void printLog (){
+		for (int i=0; i<log.size(); i++){
+			loginput l = log.get[i];
+			
+			System.out.print(l.id+" client"+l.transactionNum+" TS="+l.TS+" ");
+			if (l.command=='B' || l.command=='C' || l.command=='A'){
+				System.out.println(l.command);
+			}
+			if (l.command=='D'){
+				System.out.println(l.command+" "+l.document);
+			}
+			if (l.command=='W' || l.command=='R'){
+				System.out.println(l.command+" "+l.document+" "+l.position+" "+l.value);
+			}
+		}
+	}
 		
 	public static void main(String[] args) {
 
@@ -98,6 +115,8 @@ public class Database {
 			new client().start();
 		}
 		
+		printLog();
+		System.out.println("FROM REPOSITORY!!!!!!!!!!!!!!!!!!!!!");
 	}
 
 }

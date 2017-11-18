@@ -59,16 +59,7 @@ public class client extends Thread{
 		
 		Database.log.add(input);
 		
-		System.out.print(input.id+" client"+input.transactionNum+" TS="+input.TS+" ");
-		if (input.command=='B' || input.command=='C' || input.command=='A'){
-			System.out.println(input.command);
-		}
-		if (input.command=='D'){
-			System.out.println(input.command+" "+input.document);
-		}
-		if (input.command=='W' || input.command=='R'){
-			System.out.println(input.command+" "+input.document+" "+input.position+" "+input.value);
-		}
+		
 			
 //		System.out.print(Database.timestamp+" cliend"+id+" T"+id+"="+ts+" ");
 //		for (int j=0; j<par.length; j++){
