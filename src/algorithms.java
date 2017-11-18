@@ -45,11 +45,4 @@ public class algorithms {
 		}
 		return des;
 	}
-
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-
 }
