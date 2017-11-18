@@ -187,6 +187,10 @@ public class Database extends Menu {
 		for (int i=0; i<num; i++){
 			new client().start();
 		}
+		
+		for (int i=0; i<num; i++){
+			c[i].join();
+		}
 
 		printLog();
 		System.out.println("FROM REPOSITORY!!!!!!!!!!!!!!!!!!!");

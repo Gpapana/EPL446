@@ -14,15 +14,8 @@ public class client extends Thread{
 		}
 		
 		for (int i=0; i<Database.actions[id-1].length; i++){
-
-			
 			ts=print(ts, id, Database.actions[id-1][i], i);
-			
-			//input.id=i;
-			//input.command=
-			
-			//Database.log.add(new loginput());
-			
+
 			if (i%10==0){
 				yield();
 			}
@@ -67,12 +60,6 @@ public class client extends Thread{
 		input.TS=ts;
 		
 		Database.log.add(input);
-		
-//		System.out.print(Database.timestamp+" cliend"+id+" T"+id+"="+ts+" ");
-//		for (int j=0; j<par.length; j++){
-//			System.out.print(par[j]+" ");
-//		}
-//		System.out.println();
 
 		return ts;
 	}
