@@ -39,8 +39,53 @@ public class Database {
 	
 	public static ArrayList<loginput> log = new ArrayList<loginput>();
 	
+	static void printLog (){
+		for (int i=0; i<log.size(); i++){
+			loginput l = log.get(i);
+			
+			System.out.print(l.id+" client"+l.transactionNum+" TS="+l.TS+" ");
+			if (l.command=='B' || l.command=='C' || l.command=='A'){
+				System.out.println(l.command);
+			}
+			if (l.command=='D'){
+				System.out.println(l.command+" "+l.document);
+			}
+			if (l.command=='W' || l.command=='R'){
+				System.out.println(l.command+" "+l.document+" "+l.position+" "+l.value);
+			}
+		}
+	}
 	public static void main(String[] args) {
 
+		for (int i=0; i<A.length; i++){
+			A[i]=' ';
+			B[i]=' ';
+			C[i]=' ';
+			D[i]=' ';
+			E[i]=' ';
+			F[i]=' ';
+			G[i]=' ';
+			H[i]=' ';
+			I[i]=' ';
+			J[i]=' ';
+			K[i]=' ';
+			L[i]=' ';
+			M[i]=' ';
+			N[i]=' ';
+			O[i]=' ';
+			P[i]=' ';
+			Q[i]=' ';
+			R[i]=' ';
+			S[i]=' ';
+			T[i]=' ';
+			U[i]=' ';
+			V[i]=' ';
+			W[i]=' ';
+			X[i]=' ';
+			Y[i]=' ';
+			Z[i]=' ';
+		}
+		
 		Scanner sc=new Scanner(System.in);
 		System.out.println("Number of cliends?");
 		int num=sc.nextInt();
@@ -63,10 +108,14 @@ public class Database {
 			}
 		}
 		
+		// SOURTES
+		
 		for (int i=0; i<num; i++){
 			new client().start();
 		}
 		
+		printLog();
+		System.out.println("FROM REPOSITORY!!!!!!!!!!!!!!!!!!!");
 	}
 
 }

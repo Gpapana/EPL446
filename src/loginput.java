@@ -1,6 +1,7 @@
 
 public class loginput {
 	int id;
+	int transactionNum;
 	char command;
 	char document;
 	int position;
@@ -56,5 +57,11 @@ public class loginput {
 	}
 	public void setLockedby(loginput lockedby) {
 		this.lockedby = lockedby;
+	}
+	public int getTransactionNum() {
+		return transactionNum;
+	}
+	public void setTransactionNum(int transactionNum) {
+		this.transactionNum = transactionNum;
 	}
 }
