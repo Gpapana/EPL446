@@ -51,9 +51,6 @@ public class Menu extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public Menu() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 420, 351);
@@ -210,7 +207,7 @@ public class Menu extends JFrame {
 
 	public int doButtonAction() {
 		//Must be implement at child
-		System.out.println("You should implement this Function");
+		System.out.println("Not implemented Function");
 		return 0;
 	}
 

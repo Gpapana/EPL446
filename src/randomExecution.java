@@ -35,11 +35,7 @@ public class randomExecution {
 				break;
 				}*/
 				double T=num.nextDouble();
-<<<<<<< HEAD
 
-=======
-				
->>>>>>> refs/remotes/origin/master
 				if(T>=0.9){
 					Ts[j][0]="D";
 				}
@@ -49,11 +45,6 @@ public class randomExecution {
 				else{
 					Ts[j][0]="R";
 				}
-<<<<<<< HEAD
-
-=======
-				
->>>>>>> refs/remotes/origin/master
 				int data=num.nextInt(26)+65;
 				char temp=(char)data;
 				Ts[j][1]=Character.toString(temp);
