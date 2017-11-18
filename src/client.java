@@ -59,8 +59,6 @@ public class client extends Thread{
 		
 		Database.log.add(input);
 		
-		
-			
 //		System.out.print(Database.timestamp+" cliend"+id+" T"+id+"="+ts+" ");
 //		for (int j=0; j<par.length; j++){
 //			System.out.print(par[j]+" ");

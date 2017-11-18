@@ -116,7 +116,7 @@ public class Database {
 		}
 		
 		printLog();
-		System.out.println("FROM REPOSITORY!!!!!!!!!!!!!!!!!!!!!");
+		System.out.println("FROM REPOSITORY!!!!!!!!!!!!!!!!!!!");
 	}
 
 }
