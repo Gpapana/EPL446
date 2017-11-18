@@ -9,7 +9,6 @@ public class client extends Thread{
 		int ts=0;
 
 		for (int i=0; i<2000; i++){ //NA POSKOLIOUNTE LIO TA trasactions PRIN KSEKINISOUN DOULIA
-
 			int p=i;
 		}
 		
