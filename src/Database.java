@@ -41,7 +41,7 @@ public class Database {
 	
 	static void printLog (){
 		for (int i=0; i<log.size(); i++){
-			loginput l = log.get[i];
+			loginput l = log.get(i);
 			
 			System.out.print(l.id+" client"+l.transactionNum+" TS="+l.TS+" ");
 			if (l.command=='B' || l.command=='C' || l.command=='A'){
