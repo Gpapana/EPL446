@@ -1,3 +1,4 @@
+import java.io.PrintWriter;
 
 public class client extends Thread{
 
@@ -13,7 +14,7 @@ public class client extends Thread{
 		}
 		
 		for (int i=0; i<Database.actions[id-1].length; i++){
-			ts=print(ts, id, Database.actions[id-1][i], i);
+			ts=execute(ts, id, Database.actions[id-1][i], i);
 
 			if (i%10==0){
 				yield();
@@ -24,7 +25,8 @@ public class client extends Thread{
 	
 	///////////////////////////////////////////////////////////////////////
 	
-	synchronized static int print (int ts, int id, String s, int i){
+	
+	synchronized static int execute (int ts, int id, String s, int i){//TODO
 		String[] par = new String[4];
 		if (s==null){
 			return ts;
@@ -59,6 +61,7 @@ public class client extends Thread{
 		input.TS=ts;
 		
 		Database.log.add(input);
+		
 
 		return ts;
 	}

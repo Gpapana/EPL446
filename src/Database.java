@@ -7,7 +7,7 @@ import Interface.Menu;
 
 
 public class Database/* extends Menu*/ {
-/*
+	/*
 	Thread[] clients =null;
 
 	@Override
@@ -63,7 +63,7 @@ public class Database/* extends Menu*/ {
 				clients[i] = new Thread(new client(inputfile, name, (i + 1)));
 				clients[i].start();
 				numofCl++;
-				 
+
 			} catch (Exception e) {
 				System.out.println("There is no file with name " + inputfile);
 			}
@@ -74,11 +74,11 @@ public class Database/* extends Menu*/ {
 		/*Thread t1 = new Thread(new TCPServer("Server", option_update, option_type,numofCl));
 		t1.setDaemon(true);
 		t1.start();
-		 
+
 		return 0;
 	}
 
-*/
+	 */
 
 	static private char[] A = new char[256];
 	static private char[] B = new char[256];
@@ -129,7 +129,97 @@ public class Database/* extends Menu*/ {
 			}
 		}
 	}
-	public static void main(String[] args) {
+
+	static void read (loginput in){}
+
+	static void write (loginput in,boolean immedia){
+
+		char ch= in.document;
+		char[] tmp = new char[256];
+
+		switch (ch){
+		case 'A':  A[in.position]=in.value;
+		tmp=A;
+		break;
+		case 'B':  B[in.position]=in.value;
+		tmp=B;
+		break;
+		case 'C':  C[in.position]=in.value;
+		tmp=C;
+		break;
+		case 'D':  D[in.position]=in.value;
+		tmp=D;
+		break;
+		case 'E':  E[in.position]=in.value;
+		tmp=E;
+		break;
+		case 'F':  F[in.position]=in.value;
+		tmp=F;
+		break;
+		case 'G':  G[in.position]=in.value;
+		tmp=G;
+		break;
+		case 'H':  H[in.position]=in.value;
+		tmp=H;
+		break;
+		case 'I':  I[in.position]=in.value;
+		tmp=I;
+		break;
+		case 'J':  J[in.position]=in.value;
+		tmp=J;break;
+		case 'K':  K[in.position]=in.value;
+		tmp=K;break;
+		case 'L':  L[in.position]=in.value;
+		tmp=L;break;
+		case 'M':  M[in.position]=in.value;
+		tmp=M;break;
+		case 'N':  N[in.position]=in.value;
+		tmp=N;break;
+		case 'O':  O[in.position]=in.value;
+		tmp=O;break;
+		case 'P':  P[in.position]=in.value;
+		tmp=P;break;
+		case 'Q':  Q[in.position]=in.value;
+		tmp=Q;break;
+		case 'R':  R[in.position]=in.value;
+		tmp=R;break;
+		case 'S':  S[in.position]=in.value;
+		tmp=S;break;
+		case 'T':  T[in.position]=in.value;
+		tmp=T;break;
+		case 'U':  U[in.position]=in.value;
+		tmp=U;break;
+		case 'V':  V[in.position]=in.value;
+		tmp=V;break;
+		case 'W':  W[in.position]=in.value;
+		tmp=W;break;
+		case 'X':  X[in.position]=in.value;
+		tmp=X;break;
+		case 'Y':  Y[in.position]=in.value;
+		tmp=Y;break;
+		case 'Z':  Z[in.position]=in.value;
+		tmp=Z;break;
+		}		
+		try{
+			PrintWriter printWriter = new PrintWriter ("in.document"+".txt","UTF-8");
+			for(int j=0;j<26;j++){
+				//System.out.println("i= "+i+" j= "+j);
+				printWriter.print (tmp[j]+" ");
+			}
+
+			// close connection
+			printWriter.close (); 
+
+		}catch(Exception e){
+			System.out.println(e);
+		}
+
+
+
+
+	}
+
+	public static void main(String[] args) throws InterruptedException {
 
 		for (int i=0; i<A.length; i++){
 			A[i]=' ';
@@ -183,20 +273,20 @@ public class Database/* extends Menu*/ {
 		}
 
 		// SOURTES
-		
+
 		c = new client[num]; 
-		
+
 		for (int i=0; i<num; i++){
 			c[i] = new client();
 			c[i].start();
 		}
-		
+
 		for (int i=0; i<num; i++){
 			c[i].join();
 		}
 
 		printLog();
-		System.out.println("FROM REPOSITORY!!!!!!!!!!!!!!!!!!!");
+		System.out.println("--END--");
 	}
 
 }
