@@ -6,8 +6,8 @@ import java.util.Scanner;
 import Interface.Menu;
 
 
-public class Database extends Menu {
-
+public class Database/* extends Menu*/ {
+/*
 	Thread[] clients =null;
 
 	@Override
@@ -63,7 +63,7 @@ public class Database extends Menu {
 				clients[i] = new Thread(new client(inputfile, name, (i + 1)));
 				clients[i].start();
 				numofCl++;
-				 */
+				 
 			} catch (Exception e) {
 				System.out.println("There is no file with name " + inputfile);
 			}
@@ -74,11 +74,11 @@ public class Database extends Menu {
 		/*Thread t1 = new Thread(new TCPServer("Server", option_update, option_type,numofCl));
 		t1.setDaemon(true);
 		t1.start();
-		 */
+		 
 		return 0;
 	}
 
-
+*/
 
 	static private char[] A = new char[256];
 	static private char[] B = new char[256];
