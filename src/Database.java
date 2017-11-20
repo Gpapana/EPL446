@@ -137,7 +137,7 @@ public class Database/* extends Menu*/ {
 
 	static void delete (loginput in){
 
-		System.out.println("write is here");
+		System.out.println("delete is here");
 
 		char ch= in.document;
 		char[] tmp = new char[256];
@@ -225,32 +225,23 @@ public class Database/* extends Menu*/ {
 
 		switch (ch){
 		case 'A':  A[in.position]=in.value;
-		tmp=A;
-		break;
+		tmp=A;break;
 		case 'B':  B[in.position]=in.value;
-		tmp=B;
-		break;
+		tmp=B;break;
 		case 'C':  C[in.position]=in.value;
-		tmp=C;
-		break;
+		tmp=C;break;
 		case 'D':  D[in.position]=in.value;
-		tmp=D;
-		break;
+		tmp=D;break;
 		case 'E':  E[in.position]=in.value;
-		tmp=E;
-		break;
+		tmp=E;break;
 		case 'F':  F[in.position]=in.value;
-		tmp=F;
-		break;
+		tmp=F;break;
 		case 'G':  G[in.position]=in.value;
-		tmp=G;
-		break;
+		tmp=G;break;
 		case 'H':  H[in.position]=in.value;
-		tmp=H;
-		break;
+		tmp=H;break;
 		case 'I':  I[in.position]=in.value;
-		tmp=I;
-		break;
+		tmp=I;break;
 		case 'J':  J[in.position]=in.value;
 		tmp=J;break;
 		case 'K':  K[in.position]=in.value;
