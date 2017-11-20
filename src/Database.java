@@ -130,9 +130,14 @@ public class Database/* extends Menu*/ {
 		}
 	}
 
-	static void read (loginput in){}
+	static void read (loginput in){
 
-	static void write (loginput in){
+		System.out.println("read is here");
+	}
+
+	static void delete (loginput in){
+
+		System.out.println("write is here");
 
 		char ch= in.document;
 		char[] tmp = new char[256];
@@ -198,8 +203,8 @@ public class Database/* extends Menu*/ {
 		Z=tmp;break;
 		}		
 		try{
-			PrintWriter printWriter = new PrintWriter ("in.document"+".txt","UTF-8");
-			for(int j=0;j<26;j++){
+			PrintWriter printWriter = new PrintWriter ("Database/"+ch+".txt","UTF-8");
+			for(int j=0;j<tmp.length;j++){
 				//System.out.println("i= "+i+" j= "+j);
 				printWriter.print (tmp[j]+" ");
 			}
@@ -212,7 +217,8 @@ public class Database/* extends Menu*/ {
 		}
 	}
 
-	static void delete (loginput in){
+	static void write (loginput in){
+		System.out.println("write is here");
 
 		char ch= in.document;
 		char[] tmp = new char[256];
@@ -281,8 +287,8 @@ public class Database/* extends Menu*/ {
 		tmp=Z;break;
 		}		
 		try{
-			PrintWriter printWriter = new PrintWriter ("in.document"+".txt","UTF-8");
-			for(int j=0;j<26;j++){
+			PrintWriter printWriter = new PrintWriter ("Database/"+ch+".txt","UTF-8");
+			for(int j=0;j<tmp.length;j++){
 				//System.out.println("i= "+i+" j= "+j);
 				printWriter.print (tmp[j]+" ");
 			}

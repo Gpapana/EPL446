@@ -57,6 +57,11 @@ public class client extends Thread{
 				input.value=par[3].charAt(0);
 			}
 		}
+		switch(input.command){
+			case 'R': Database.read(input);break;
+			case 'W': Database.write(input);break;
+			case 'D': Database.delete(input);break;
+		}
 		
 		input.TS=ts;
 		
