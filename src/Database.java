@@ -132,7 +132,87 @@ public class Database/* extends Menu*/ {
 
 	static void read (loginput in){}
 
-	static void write (loginput in,boolean immedia){
+	static void write (loginput in){
+
+		char ch= in.document;
+		char[] tmp = new char[256];
+		for(int i=0;i<tmp.length;i++){
+			tmp[i]=' ';
+		}
+		switch (ch){
+		case 'A':  A[in.position]=in.value;
+		A=tmp;
+		break;
+		case 'B':  B[in.position]=in.value;
+		B=tmp;
+		break;
+		case 'C':  C[in.position]=in.value;
+		C=tmp;break;
+		case 'D':  D[in.position]=in.value;
+		D=tmp;break;
+		case 'E':  E[in.position]=in.value;
+		E=tmp;break;
+		case 'F':  F[in.position]=in.value;
+		F=tmp;
+		break;
+		case 'G':  G[in.position]=in.value;
+		G=tmp;
+		break;
+		case 'H':  H[in.position]=in.value;
+		H=tmp;break;
+		case 'I':  I[in.position]=in.value;
+		I=tmp;break;
+		case 'J':  J[in.position]=in.value;
+		J=tmp;break;
+		case 'K':  K[in.position]=in.value;
+		K=tmp;break;
+		case 'L':  L[in.position]=in.value;
+		L=tmp;break;
+		case 'M':  M[in.position]=in.value;
+		M=tmp;break;
+		case 'N':  N[in.position]=in.value;
+		N=tmp;break;
+		case 'O':  O[in.position]=in.value;
+		O=tmp;break;
+		case 'P':  P[in.position]=in.value;
+		P=tmp;break;
+		case 'Q':  Q[in.position]=in.value;
+		Q=tmp;break;
+		case 'R':  R[in.position]=in.value;
+		R=tmp;break;
+		case 'S':  S[in.position]=in.value;
+		S=tmp;break;
+		case 'T':  T[in.position]=in.value;
+		T=tmp;break;
+		case 'U':  U[in.position]=in.value;
+		U=tmp;break;
+		case 'V':  V[in.position]=in.value;
+		V=tmp;break;
+		case 'W':  W[in.position]=in.value;
+		W=tmp;break;
+		case 'X':  X[in.position]=in.value;
+		X=tmp;break;
+		case 'Y':  Y[in.position]=in.value;
+		Y=tmp;break;
+		case 'Z':  Z[in.position]=in.value;
+		Z=tmp;break;
+		}		
+		try{
+			PrintWriter printWriter = new PrintWriter ("in.document"+".txt","UTF-8");
+			for(int j=0;j<26;j++){
+				//System.out.println("i= "+i+" j= "+j);
+				printWriter.print (tmp[j]+" ");
+			}
+
+			// close connection
+			printWriter.close (); 
+
+		}catch(Exception e){
+			System.out.println(e);
+		}
+	}
+
+	static void delete (loginput in){
 
 		char ch= in.document;
 		char[] tmp = new char[256];
@@ -213,10 +293,6 @@ public class Database/* extends Menu*/ {
 		}catch(Exception e){
 			System.out.println(e);
 		}
-
-
-
-
 	}
 
 	public static void main(String[] args) throws InterruptedException {
