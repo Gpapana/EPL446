@@ -369,6 +369,7 @@ public class Database/* extends Menu*/ {
 			c[i].join();
 		}
 
+		
 		printLog();
 		System.out.println("--END--");
 	}

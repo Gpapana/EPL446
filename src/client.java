@@ -32,6 +32,7 @@ public class client extends Thread{
 				ts=execute(ts, id, par, i);
 			}
 
+			
 			if (i%10==0){
 				yield();
 			}
