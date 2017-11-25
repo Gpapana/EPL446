@@ -107,6 +107,7 @@ public class Database/* extends Menu*/ {
 	static private char[] Y = new char[256];
 	static private char[] Z = new char[256];
 	static client[] c;
+	static int num;
 	static String[][] actions;
 	static int threadNum=0;
 	static int timestamp=0;
@@ -129,6 +130,12 @@ public class Database/* extends Menu*/ {
 			if (l.command=='W' || l.command=='R'){
 				System.out.println(l.command+" "+l.document+" "+l.position+" "+l.value);
 			}
+		}
+	}
+	
+	static void wake (){
+		for (int i=0; i<num; i++){
+			synchronized (c[i]) {c[i].notify();}
 		}
 	}
 
@@ -327,7 +334,7 @@ public class Database/* extends Menu*/ {
 
 		Scanner sc=new Scanner(System.in);
 		System.out.println("Number of cliends?");
-		int num=sc.nextInt();
+		num=sc.nextInt();
 		System.out.println("Deadlock prevention Function?");
 		int deadlockFunction=sc.nextInt();
 		sc.close();

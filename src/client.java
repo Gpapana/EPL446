@@ -30,7 +30,6 @@ public class client extends Thread{
 					System.out.println("Client "+id+" continues!!!");
 				}
 				ts=execute(ts, id, par, i);
-				synchronized (this) {notifyAll();}
 			}
 
 			if (i%10==0){
@@ -38,6 +37,7 @@ public class client extends Thread{
 			}
 		}
 		freeLocks(id);
+		synchronized (this) {Database.wake();}
 	}
 	
 	///////////////////////////////////////////////////////////////////////
@@ -82,24 +82,25 @@ public class client extends Thread{
 			}
 			for (int j=0; j<Database.locks.size(); j++){
 				lock g=Database.locks.get(j);
-				if (g.fileName==par[1].charAt(0) && g.position==-1){
-					ok=0;
-					break;
+				if (g.client==id){
+					if (g.fileName==par[1].charAt(0) && g.position==-1){
+						ok=0;
+						break;
+					}
+					if (g.fileName==document && g.position==position && g.state=='S' && input.command=='W'){
+						g.state='X';
+						ok=0;
+						break;
+					}
+					if (g.fileName==document && g.position==position && g.state=='S' && input.command=='R'){
+						ok=0;
+						break;
+					}
+					if (g.fileName==document && g.position==position && g.state=='X'){
+						ok=0;
+						break;
+					}
 				}
-				if (g.fileName==document && g.position==position && g.state=='S' && input.command=='W'){
-					g.state='X';
-					ok=0;
-					break;
-				}
-				if (g.fileName==document && g.position==position && g.state=='S' && input.command=='R'){
-					ok=0;
-					break;
-				}
-				if (g.fileName==document && g.position==position && g.state=='X'){
-					ok=0;
-					break;
-				}
-				
 			}
 			if (ok==1){
 				lock l=new lock();
