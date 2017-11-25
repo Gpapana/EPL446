@@ -110,8 +110,10 @@ public class Database/* extends Menu*/ {
 	static String[][] actions;
 	static int threadNum=0;
 	static int timestamp=0;
+	static int deadlockFunction=0;
 
 	public static ArrayList<loginput> log = new ArrayList<loginput>();
+	public static ArrayList<lock> locks = new ArrayList<lock>();
 
 	static void printLog (){
 		for (int i=0; i<log.size(); i++){
@@ -132,12 +134,12 @@ public class Database/* extends Menu*/ {
 
 	static void read (loginput in){
 
-		System.out.println("read is here");
+		//System.out.println("read is here");
 	}
 
 	static void delete (loginput in){
 
-		System.out.println("delete is here");
+		//System.out.println("delete is here");
 
 		char ch= in.document;
 		char[] tmp = new char[256];
@@ -218,7 +220,7 @@ public class Database/* extends Menu*/ {
 	}
 
 	static void write (loginput in){
-		System.out.println("write is here");
+		//System.out.println("write is here");
 
 		char ch= in.document;
 		char[] tmp = new char[256];
@@ -326,6 +328,8 @@ public class Database/* extends Menu*/ {
 		Scanner sc=new Scanner(System.in);
 		System.out.println("Number of cliends?");
 		int num=sc.nextInt();
+		System.out.println("Deadlock prevention Function?");
+		int deadlockFunction=sc.nextInt();
 		sc.close();
 
 		actions = new String[num][20];
