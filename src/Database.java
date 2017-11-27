@@ -111,7 +111,7 @@ public class Database/* extends Menu*/ {
 	static String[][] actions;
 	static int threadNum=0;
 	static int timestamp=0;
-	static int deadlockFunction=0;
+	static int deadlockFunction=0;// default =0 wait/die=1 wound/wait=2 cautious=3
 
 	public static ArrayList<loginput> log = new ArrayList<loginput>();
 	public static ArrayList<lock> locks = new ArrayList<lock>();
@@ -132,7 +132,7 @@ public class Database/* extends Menu*/ {
 			}
 		}
 	}
-	
+
 	static void wake (){
 		for (int i=0; i<num; i++){
 			synchronized (c[i]) {c[i].notify();}
@@ -302,7 +302,6 @@ public class Database/* extends Menu*/ {
 	}
 
 	public static void main(String[] args) throws InterruptedException {
-
 		for (int i=0; i<A.length; i++){
 			A[i]=' ';
 			B[i]=' ';
@@ -369,9 +368,8 @@ public class Database/* extends Menu*/ {
 			c[i].join();
 		}
 
-		
+
 		printLog();
 		System.out.println("--END--");
 	}
-
 }

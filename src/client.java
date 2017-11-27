@@ -2,23 +2,23 @@
 public class client extends Thread{
 
 	//////////////////////////////////////////////////////////////////////
-	
 	public void run(){
 		Database.threadNum++;
 		int id=Database.threadNum;
 		int ts=0;
+		int function=Database.deadlockFunction;
 		String[] par = new String[4];
 
 		for (int i=0; i<2000; i++){ //NA POSKOLIOUNTE LIO TA trasactions PRIN KSEKINISOUN DOULIA
 			int p=i;
 		}
-		
+
 		for (int i=0; i<Database.actions[id-1].length; i++){
 			String s=Database.actions[id-1][i];
 			if (s!=null){
 				par = s.split(" ");
-				int disition;
-				while((disition=checkLocks(id,par))==0){
+				int disition;		
+				while((disition=checkLocks(id,par))==0){// TODO check if there is already any locks on the wanted document
 					System.out.println("Client "+id+" waits for "+par[1].charAt(0));
 					synchronized (this) {
 						try {
@@ -29,10 +29,26 @@ public class client extends Thread{
 					}
 					System.out.println("Client "+id+" continues!!!");
 				}
-				ts=execute(ts, id, par, i);
-			}
+				int des=0;
+				switch (i){
+				case 0: des=0;//default
+				break;
+				case 1:des=algorithms.wait_die(ts,i);
+				break;
+				case 2:des=algorithms.wound_wait(ts,i);
+				break;
+				case 3:des=0; break;//catious
+				}
+				if(des==0){ts=execute(ts, id, par, i);
+				}else{
+					try {
+						wait();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
 
-			
+			}
 			if (i%10==0){
 				yield();
 			}
@@ -40,22 +56,18 @@ public class client extends Thread{
 		freeLocks(id);
 		synchronized (this) {Database.wake();}
 	}
-	
+
 	///////////////////////////////////////////////////////////////////////
-	
-	
 	synchronized static int execute (int ts, int id, String[] par, int i){//TODO
-		
 		Database.timestamp++;	
 		if (i==0){
 			ts=Database.timestamp;
 		}
-		
+
 		loginput input = new loginput();
 		input.id=Database.timestamp;
 		input.transactionNum=id;
-		
-		
+
 		for (int j=0; j<par.length; j++){
 			if (j==0){
 				input.command=par[0].charAt(0);
@@ -70,7 +82,7 @@ public class client extends Thread{
 				input.value=par[3].charAt(0);
 			}
 		}
-		
+
 		int ok=1;
 		if (input.command=='R' || input.command=='W' || input.command=='D'){
 			char document=par[1].charAt(0);
@@ -126,30 +138,24 @@ public class client extends Thread{
 					l.position=-1;
 					l.state='X';
 				}
-				
-				
 				Database.locks.add(l);
 				System.out.println("Client "+l.client+" "+l.state+"-lock on "+l.fileName+" "+l.position);
 			}
-			
 		}
-		
-		
-		
-		switch(input.command){
-			case 'R': Database.read(input);break;
-			case 'W': Database.write(input);break;
-			case 'D': Database.delete(input);break;
-		}
-		
-		input.TS=ts;
-		
-		Database.log.add(input);
-		
 
+		switch(input.command){
+		case 'R': Database.read(input);break;
+		case 'W': Database.write(input);break;
+		case 'D': Database.delete(input);break;
+		}
+
+		input.TS=ts;
+
+		Database.log.add(input);
 		return ts;
 	}
-	
+
+	///////////////////////////////////////////////////////////////////////
 	synchronized static void freeLocks (int id){
 		for (int i=0; i<Database.locks.size(); i++){
 			lock l=Database.locks.get(i);
@@ -159,8 +165,9 @@ public class client extends Thread{
 			}
 		}
 	}
-	
-	synchronized static int checkLocks (int id, String[] par){
+
+	///////////////////////////////////////////////////////////////////////
+	synchronized static int checkLocks (int id, String[] par){//returns 0=wait or 1= gives lock 
 		int disition=1;
 		char command=par[0].charAt(0);
 		if (command=='B' || command=='C' || command=='A'){
@@ -174,7 +181,7 @@ public class client extends Thread{
 		else{
 			position=Integer.parseInt(par[2]);
 		}
-		
+
 		for (int i=0; i<Database.locks.size(); i++){
 			lock l=Database.locks.get(i);
 			if (l.client!=id){
@@ -205,7 +212,6 @@ public class client extends Thread{
 				else {disition=1;}
 			}
 		}
-		
 		return disition;
 	}
 }

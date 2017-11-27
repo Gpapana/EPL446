@@ -1,4 +1,3 @@
-package epl446_project;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -33,12 +32,12 @@ public class dbMenuGUI extends JFrame implements ActionListener, ChangeListener 
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		
+
 		String TSdata[][]=new String[26][3];
 		for(int i=0;i<26;i++) {
 			char temp=(char)(i+65);
-				TSdata[i][0]=String.valueOf(temp);
-			
+			TSdata[i][0]=String.valueOf(temp);
+
 		}
 		for(int i=0;i<26;i++) {
 			for(int j=1;j<3;j++) {
@@ -46,8 +45,8 @@ public class dbMenuGUI extends JFrame implements ActionListener, ChangeListener 
 			}
 		}
 		String[] columnNames = {"Resource",
-                "MaxReadTS",
-                "MaxWriteTS",};
+				"MaxReadTS",
+				"MaxWriteTS",};
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -133,32 +132,32 @@ public class dbMenuGUI extends JFrame implements ActionListener, ChangeListener 
 		group2.add(rdbtnWoundwait);
 		group2.add(rdbtnWaitdie);
 		group2.add(rdbtnCautiousWaiting);
-		
-		
-		
-		
+
+
+
+
 
 		//		JPanel panel1=new JPanel(new GridLayout(5,1));
 		//		panel1.add(rdbtnImmediateUpdate);
 		//		panel1.add(rdbtnDeferredUpdate);
 
-		
+
 		//actions listeners
 		rdbtnImmediateUpdate.addActionListener(this);
 		rdbtnDeferredUpdate.addActionListener(this);
 		rdbtnWoundwait.addActionListener(this);
 		rdbtnWaitdie.addActionListener(this);
 		rdbtnCautiousWaiting.addActionListener(this);
-		
-		
-		
+
+
+
 		//number of clients
 		JLabel lblNumberOfCliends = new JLabel("Number of Clients");
 		lblNumberOfCliends.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNumberOfCliends.setBounds(25, 230, 257, 23);
 		contentPane.add(lblNumberOfCliends);
 
-		
+
 		JSlider slider = new JSlider();
 		slider.setBounds(25, 277, 359, 57);
 		contentPane.add(slider);
@@ -170,7 +169,7 @@ public class dbMenuGUI extends JFrame implements ActionListener, ChangeListener 
 		slider.setPaintTicks(true);
 		slider.setPaintLabels(true);
 		slider.setValue(3);
-		
+
 		JButton btnStart = new JButton("START");
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -189,10 +188,10 @@ public class dbMenuGUI extends JFrame implements ActionListener, ChangeListener 
 		});
 		btnStart.setBounds(26, 389, 89, 23);
 		contentPane.add(btnStart);
-	
-			
-		
-		
+
+
+
+
 		JButton btnExit = new JButton("EXIT");
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -234,8 +233,8 @@ public class dbMenuGUI extends JFrame implements ActionListener, ChangeListener 
 		// TODO Auto-generated method stub
 		JSlider source=(JSlider) e.getSource();
 		if(!source.getValueIsAdjusting()){
-		ClientsNum=(int)source.getValue();
-		System.out.println(ClientsNum);
+			ClientsNum=(int)source.getValue();
+			System.out.println(ClientsNum);
 		}
 	}
 }

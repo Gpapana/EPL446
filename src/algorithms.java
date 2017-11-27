@@ -1,10 +1,10 @@
 
 public class algorithms {
 
-	public static int wound_wait(int TSi,int TSj,int DESi){
+	public static int wound_wait(int TSi,int TSj){
+		int DESi;
 		if(TSi>TSj){
 			DESi=1;//wait
-
 		}
 		else{
 			//DESj=1;//cancel
@@ -14,7 +14,8 @@ public class algorithms {
 		return DESi;
 	}
 
-	public static int wait_die(int TSi,int TSj,int DESi){
+	public static int wait_die(int TSi,int TSj){
+		int DESi;
 		if(TSi<TSj){
 			DESi=1;//wait
 		}
