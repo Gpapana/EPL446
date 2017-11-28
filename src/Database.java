@@ -5,81 +5,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import Interface.Menu;
 
-
-public class Database/* extends Menu*/ {
-	/*
-	Thread[] clients =null;
-
-	@Override
-	public int doButtonAction() {
-
-		String inputfile;
-		String name;
-
-		switch (option_update) {
-		case 1: {
-
-			System.out.println("The Update is  Immediate");
-			break;
-		}
-		case 2: {
-
-			System.out.println("The Update is  Deferred");
-			break;
-		}
-		default: {
-			System.out.println("ERROR.You didnt Choose");
-		}
-		}
-
-		switch (option_type) {
-		case 1: {
-
-			System.out.println("The Type is  Wound and wait");
-			break;
-		}
-		case 2: {
-
-			System.out.println("The Type is  Wait And Die");
-			break;
-		}
-		case 3: {
-
-			System.out.println("The Type is  Cautious Waiting");
-			break;
-		}
-		default: {
-			System.out.println("ERROR.You didnt Choose");
-		}
-		}
-
-		clients = new Thread[num_of_clients];
-		int numofCl=0;
-		for (int i = 0; i < num_of_clients; i++) {
-			inputfile = "inputs/input" + (i + 1) + ".txt";
-			name = "Client" + (i + 1);
-			try {
-				/*
-				clients[i] = new Thread(new client(inputfile, name, (i + 1)));
-				clients[i].start();
-				numofCl++;
-
-			} catch (Exception e) {
-				System.out.println("There is no file with name " + inputfile);
-			}
-		}
-
-
-		System.out.println("The Number of Clients are " + numofCl);
-		/*Thread t1 = new Thread(new TCPServer("Server", option_update, option_type,numofCl));
-		t1.setDaemon(true);
-		t1.start();
-
-		return 0;
-	}
-
-	 */
-
+public class Database{
 	static private char[] A = new char[256];
 	static private char[] B = new char[256];
 	static private char[] C = new char[256];
@@ -338,7 +264,7 @@ public class Database/* extends Menu*/ {
 		int deadlockFunction=sc.nextInt();
 		sc.close();
 
-		actions = new String[num][20];
+		actions = new String[num][22];//22 was 20
 
 		for (int i=0; i<num; i++){
 			File fl = new File ("cliends/client"+(i+1)+".txt");

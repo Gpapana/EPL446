@@ -30,14 +30,14 @@ public class client extends Thread{
 					System.out.println("Client "+id+" continues!!!");
 				}
 				int des=0;
-				switch (i){
+				switch (function){
 				case 0: des=0;//default
 				break;
-				case 1:des=algorithms.wait_die(ts,i);
+				case 1:des=algorithms.wait_die(ts,Database.timestamp);//latos ts
 				break;
-				case 2:des=algorithms.wound_wait(ts,i);
+				case 2:des=algorithms.wound_wait(ts,Database.timestamp);//latos ts
 				break;
-				case 3:des=0; break;//catious
+				case 3:des=0; break;//cautious
 				}
 				if(des==0){ts=execute(ts, id, par, i);
 				}else{
