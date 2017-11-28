@@ -1,3 +1,4 @@
+package epl446_project;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -20,8 +21,7 @@ import javax.swing.JButton;
 
 public class dbMenuGUI extends JFrame implements ActionListener, ChangeListener {
 
-	static String ImmediateCommand="immediate";
-	static String DefferedCommand="deffered";
+	static String defaultD="default";
 	static String WoundWaitCommand="wound";
 	static String WaitDieCommand="die";
 	static String CautiousWaitingCommand="cautious";
@@ -32,7 +32,7 @@ public class dbMenuGUI extends JFrame implements ActionListener, ChangeListener 
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-
+		
 		String TSdata[][]=new String[26][3];
 		for(int i=0;i<26;i++) {
 			char temp=(char)(i+65);
@@ -41,7 +41,7 @@ public class dbMenuGUI extends JFrame implements ActionListener, ChangeListener 
 		}
 		for(int i=0;i<26;i++) {
 			for(int j=1;j<3;j++) {
-				TSdata[i][j]="sdaf";
+				TSdata[i][j]="0";
 			}
 		}
 		String[] columnNames = {"Resource",
@@ -66,89 +66,48 @@ public class dbMenuGUI extends JFrame implements ActionListener, ChangeListener 
 	 */
 	public dbMenuGUI(String[][] tSdata, String[] columnNames) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 662, 504);
+		setBounds(100, 100, 493, 504);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblUpdateType = new JLabel("Update Type");
-		lblUpdateType.setHorizontalAlignment(SwingConstants.CENTER);
-		lblUpdateType.setBounds(25, 35, 157, 14);
-		contentPane.add(lblUpdateType);
-
 		JLabel lblDeadlockType = new JLabel("Deadlock Type");
 		lblDeadlockType.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDeadlockType.setBounds(443, 35, 139, 14);
+		lblDeadlockType.setBounds(25, 35, 139, 14);
 		contentPane.add(lblDeadlockType);
 
-		JPanel panel = new JPanel(new GridLayout(0, 1));
-		panel.setBounds(45, 76, 137, 71);
-		contentPane.add(panel);
-
 		JPanel panel_1 = new JPanel(new GridLayout(0, 1));
-		panel_1.setBounds(433, 76, 149, 89);
+		panel_1.setBounds(33, 72, 149, 89);
 		contentPane.add(panel_1);
 
-
-		//group for updates
-		JRadioButton rdbtnImmediateUpdate = new JRadioButton("Immediate Update");
-		rdbtnImmediateUpdate.setBounds(45, 190, 113, 23);
-		panel.add(rdbtnImmediateUpdate);
-		rdbtnImmediateUpdate.setActionCommand(ImmediateCommand);
-
-
-		JRadioButton rdbtnDeferredUpdate = new JRadioButton("Deferred Update");
-		rdbtnDeferredUpdate.setBounds(57, 245, 107, 23);
-		panel.add(rdbtnDeferredUpdate);
-		rdbtnDeferredUpdate.setActionCommand(DefferedCommand);
-
+		//group for deadlocks
 
 		ButtonGroup group1=new ButtonGroup();
-		group1.add(rdbtnImmediateUpdate);
-		group1.add(rdbtnDeferredUpdate);
-
-
-		//group for deadlocks
-		JRadioButton rdbtnWoundwait = new JRadioButton("Wound/Wait");
-		rdbtnWoundwait.setBounds(443, 184, 85, 23);
-		panel_1.add(rdbtnWoundwait);
-		rdbtnWoundwait.setActionCommand(WoundWaitCommand);
-
+		JRadioButton rdbtnDefault = new JRadioButton("Default",true);
+		panel_1.add(rdbtnDefault);
+		rdbtnDefault.setActionCommand(defaultD);
+		group1.add(rdbtnDefault);
+		rdbtnDefault.addActionListener(this);
 
 		JRadioButton rdbtnWaitdie = new JRadioButton("Wait/Die");
-		rdbtnWaitdie.setBounds(466, 210, 67, 23);
 		panel_1.add(rdbtnWaitdie);
 		rdbtnWaitdie.setActionCommand(WaitDieCommand);
+		group1.add(rdbtnWaitdie);
+		rdbtnWaitdie.addActionListener(this);
+
+		JRadioButton rdbtnWoundwait = new JRadioButton("Wound/Wait");
+		panel_1.add(rdbtnWoundwait);
+		rdbtnWoundwait.setActionCommand(WoundWaitCommand);
+		group1.add(rdbtnWoundwait);
+		rdbtnWoundwait.addActionListener(this);
 
 
 		JRadioButton rdbtnCautiousWaiting = new JRadioButton("Cautious Waiting");
-		rdbtnCautiousWaiting.setBounds(448, 262, 107, 23);
 		panel_1.add(rdbtnCautiousWaiting);
 		rdbtnCautiousWaiting.setActionCommand(CautiousWaitingCommand);
-
-
-		ButtonGroup group2=new ButtonGroup();
-		group2.add(rdbtnWoundwait);
-		group2.add(rdbtnWaitdie);
-		group2.add(rdbtnCautiousWaiting);
-
-
-
-
-
-		//		JPanel panel1=new JPanel(new GridLayout(5,1));
-		//		panel1.add(rdbtnImmediateUpdate);
-		//		panel1.add(rdbtnDeferredUpdate);
-
-
-		//actions listeners
-		rdbtnImmediateUpdate.addActionListener(this);
-		rdbtnDeferredUpdate.addActionListener(this);
-		rdbtnWoundwait.addActionListener(this);
-		rdbtnWaitdie.addActionListener(this);
+		group1.add(rdbtnCautiousWaiting);
 		rdbtnCautiousWaiting.addActionListener(this);
-
 
 
 		//number of clients
@@ -184,6 +143,10 @@ public class dbMenuGUI extends JFrame implements ActionListener, ChangeListener 
 						}
 					}
 				});
+				String command=	group1.getSelection().getActionCommand();
+				System.out.println(command);
+				int numofClients=slider.getValue();
+				System.out.println(numofClients);
 			}
 		});
 		btnStart.setBounds(26, 389, 89, 23);
@@ -200,20 +163,22 @@ public class dbMenuGUI extends JFrame implements ActionListener, ChangeListener 
 		});
 		btnExit.setBounds(164, 389, 89, 23);
 		contentPane.add(btnExit);
+
+
+
+
+
+
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if(e.getActionCommand().equals(ImmediateCommand)){
+		if(e.getActionCommand().equals(defaultD)){
 			//action
-			System.out.println("immediate");
-		}
-		else if(e.getActionCommand().equals(DefferedCommand)){
-			//action
-			System.out.println("deffered");
-		}
-		else if(e.getActionCommand().equals(WoundWaitCommand)){
+			System.out.println("default");
+		}	
+		if(e.getActionCommand().equals(WoundWaitCommand)){
 			//action
 			System.out.println("wound");
 		}
