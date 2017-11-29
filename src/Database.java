@@ -3,9 +3,10 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
-import Interface.Menu;
 
-public class Database{
+//https://github.com/Gpapana/EPL446.git
+public class Database {
+	
 	static private char[] A = new char[256];
 	static private char[] B = new char[256];
 	static private char[] C = new char[256];
@@ -37,7 +38,7 @@ public class Database{
 	static String[][] actions;
 	static int threadNum=0;
 	static int timestamp=0;
-	static int deadlockFunction=0;// default =0 wait/die=1 wound/wait=2 cautious=3
+	static int deadlockFunction=0;
 
 	public static ArrayList<loginput> log = new ArrayList<loginput>();
 	public static ArrayList<lock> locks = new ArrayList<lock>();
@@ -58,13 +59,224 @@ public class Database{
 			}
 		}
 	}
-
+	
 	static void wake (){
 		for (int i=0; i<num; i++){
 			synchronized (c[i]) {c[i].notify();}
 		}
 	}
+	
+	static int graph (int id, String[] par){//TODO
+		int des=0;
+		for (int i=0; i<locks.size(); i++){
+			lock l=locks.get(i);
+			if (l.client==id){
+			}
+		}
+		return des;
+	}
+	
+	static int findEnemyTS (int id, String[] par) {
+		int enemy=0;
+		char command=par[0].charAt(0);
+		if (command=='B' || command=='C' || command=='A'){
+			return 0;
+		}
+		char document=par[1].charAt(0);
+		int position;
+		if (command=='D'){
+			position=-1;
+		}
+		else{
+			position=Integer.parseInt(par[2]);
+		}
+		
+		for (int i=0; i<locks.size(); i++){
+			lock l=locks.get(i);
+			if (l.client!=id){
+				if (l.fileName==document && l.position==position && l.state=='S' && command=='W'){
+					enemy=l.ts; break;
+				}
+				else if (l.fileName==document && l.position==position && l.state=='X'){
+					enemy=l.ts; break;
+				}
+				else if (l.fileName==document && l.position==-1 && l.state=='X'){
+					enemy=l.ts; break;
+				}
+			}
+		}
+		
+		return enemy;
+	}
+	
+	static void getLocks (loginput input, int id, int ts){
+		int ok=1;
+		if (input.command=='R' || input.command=='W' || input.command=='D'){
+			char document=input.document;
+			int position;
+			if (input.command=='D'){
+				position=-1;
+			}
+			else{
+				position=input.position;
+			}
+			for (int j=0; j<locks.size(); j++){
+				lock g=locks.get(j);
+				if (g.client==id){
+					if (g.fileName==document && g.position==-1){
+						ok=0;
+						break;
+					}
+					if (g.fileName==document && g.position==position && g.state=='S' && input.command=='W'){
+						g.state='X';
+						ok=0;
+						break;
+					}
+					if (g.fileName==document && g.position==position && g.state=='S' && input.command=='R'){
+						ok=0;
+						break;
+					}
+					if (g.fileName==document && g.position==position && g.state=='X'){
+						ok=0;
+						break;
+					}
+				}
+			}
+			if (ok==1){
+				lock l=new lock();
+				if (input.command=='R'){
+					l.client=id;
+					l.ts=ts;
+					l.fileName=input.document;
+					l.position=input.position;
+					l.state='S';
+				}
+				if (input.command=='W'){
+					l.client=id;
+					l.ts=ts;
+					l.fileName=input.document;
+					l.position=input.position;
+					l.state='X';
+				}
+				if (input.command=='D'){
+					l.client=id;
+					l.ts=ts;
+					l.fileName=input.document;
+					l.position=-1;
+					l.state='X';
+				}
+				
+				
+				locks.add(l);
+				System.out.println("Client "+l.client+" "+l.state+"-lock on "+l.fileName+" "+l.position);
+			}
+			
+		}
+	}
+	
+	synchronized static void freeLocks (int id){
+		for (int i=0; i<locks.size(); i++){
+			lock l=locks.get(i);
+			if (l.client==id){
+				locks.remove(i);
+				System.out.println("Client "+id+": removed lock on "+l.fileName+" "+l.position);
+			}
+		}
+	}
 
+	synchronized static int checkLocks (int id, String[] par){
+		int disition=1;
+		char command=par[0].charAt(0);
+		if (command=='B' || command=='C' || command=='A'){
+			return 1;
+		}
+		char document=par[1].charAt(0);
+		int position;
+		if (command=='D'){
+			position=-1;
+		}
+		else{
+			position=Integer.parseInt(par[2]);
+		}
+		
+		for (int i=0; i<locks.size(); i++){
+			lock l=locks.get(i);
+			if (l.client!=id){
+				if (l.fileName==document && l.position==position && l.state=='S' && command=='R'){
+					disition=1;
+				}
+				else if (l.fileName==document && l.position==position && l.state=='S' && command=='W'){
+					disition=0; break;
+				}
+				else if (l.fileName==document && l.position==position && l.state=='X'){
+					disition=0; break;
+				}
+				else if (l.fileName==document && l.position==-1 && l.state=='X'){
+					disition=0; break;
+				}
+				else {disition=1;}
+			}
+			else{
+				if (l.fileName==document && l.position==position && l.state=='S' && command=='W'){
+					return 1;
+				}
+				else if (l.fileName==document && l.position==position && l.state=='S' && command=='R'){
+					return 1;
+				}
+				else if (l.fileName==document && l.position==position && l.state=='X'){
+					return 1;
+				}
+				else {disition=1;}
+			}
+		}
+		
+		return disition;
+	}
+	
+	synchronized static int execute (int ts, int id, String[] par, int i){//TODO
+		
+		timestamp++;	
+		if (i==0){
+			ts=timestamp;
+		}
+		
+		loginput input = new loginput();
+		input.id=timestamp;
+		input.transactionNum=id;
+		
+		
+		for (int j=0; j<par.length; j++){
+			if (j==0){
+				input.command=par[0].charAt(0);
+			}
+			if (j==1){
+				input.document=par[1].charAt(0);
+			}
+			if (j==2){
+				input.position=Integer.parseInt(par[2]);
+			}
+			if (j==3){
+				input.value=par[3].charAt(0);
+			}
+		}
+		
+		getLocks(input, id, ts);
+		
+		
+		switch(input.command){
+			case 'R': Database.read(input);break;
+			case 'W': Database.write(input);break;
+			case 'D': Database.delete(input);break;
+		}
+		
+		input.TS=ts;
+		
+		log.add(input);
+		
+
+		return ts;
+	}
+	
 	static void read (loginput in){
 
 		//System.out.println("read is here");
@@ -228,6 +440,7 @@ public class Database{
 	}
 
 	public static void main(String[] args) throws InterruptedException {
+
 		for (int i=0; i<A.length; i++){
 			A[i]=' ';
 			B[i]=' ';
@@ -264,7 +477,7 @@ public class Database{
 		int deadlockFunction=sc.nextInt();
 		sc.close();
 
-		actions = new String[num][22];//22 was 20
+		actions = new String[num][22];
 
 		for (int i=0; i<num; i++){
 			File fl = new File ("cliends/client"+(i+1)+".txt");
@@ -294,8 +507,8 @@ public class Database{
 			c[i].join();
 		}
 
-
 		printLog();
 		System.out.println("--END--");
 	}
+
 }
