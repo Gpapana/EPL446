@@ -1,4 +1,5 @@
 
+
 public class loginput {
 	int id;
 	int transactionNum;
@@ -9,6 +10,21 @@ public class loginput {
 	int TS;
 	int status; // 0=unlocked 1=readlock 2=writelock
 	loginput lockedby;
+	
+	public String toString(){
+		if (command=='B' || command=='C' || command=='A'){
+			return "TS= "+id+" "+"client "+String.valueOf(transactionNum)+" "+String.valueOf(command)+"\n";
+		}
+		else if (command=='D'){
+			return "TS= "+id+" "+"client "+String.valueOf(transactionNum)+" "+String.valueOf(command)+" "+String.valueOf(document)+"\n";
+		}
+		else if (command=='W' || command=='R'){
+			return "TS= "+id+" "+"client "+String.valueOf(transactionNum)+" "+String.valueOf(command)
+			+" "+String.valueOf(document)+" "+String.valueOf(position)+" "+String.valueOf(value)+"\n";
+		}
+		return "";
+		
+	}
 	
 	public char getCommand() {
 		return command;

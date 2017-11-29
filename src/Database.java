@@ -1,3 +1,4 @@
+import java.awt.EventQueue;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -39,6 +40,8 @@ public class Database {
 	static int threadNum=0;
 	static int timestamp=0;
 	static int deadlockFunction=0;
+	static boolean startpressed=false;
+	static String TSdata[][];
 
 	public static ArrayList<loginput> log = new ArrayList<loginput>();
 	public static ArrayList<lock> locks = new ArrayList<lock>();
@@ -470,12 +473,54 @@ public class Database {
 			Z[i]=' ';
 		}
 
-		Scanner sc=new Scanner(System.in);
-		System.out.println("Number of cliends?");
-		num=sc.nextInt();
-		System.out.println("Deadlock prevention Function?");
-		int deadlockFunction=sc.nextInt();
-		sc.close();
+///////////////GUI CONNECTION///////////////////////
+	TSdata=new String[26][3];
+	for(int i=0;i<26;i++) {
+		char temp=(char)(i+65);
+		TSdata[i][0]=String.valueOf(temp);
+
+	}
+	for(int i=0;i<26;i++) {
+		for(int j=1;j<3;j++) {
+			TSdata[i][j]="0";
+		}
+	}
+	String[] columnNames = {"Resource",
+			"MaxReadTS",
+			"MaxWriteTS",};
+	
+	EventQueue.invokeLater(new Runnable() {
+		public void run() {
+			try {
+				dbMenuGUI frame = new dbMenuGUI(TSdata,columnNames);
+				frame.setVisible(true);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	});
+	
+	
+	while(startpressed==false){
+	    try {
+	       Thread.sleep(200);
+	    } catch(InterruptedException e) {
+	    }
+	}
+	
+	/////////////////////////////////////////////
+	Scanner sc=new Scanner(System.in);
+	System.out.println("Number of cliends?");
+	//num=sc.nextInt();
+	num=dbMenuGUI.ClientsNum;
+	System.out.println("num= "+num);
+	
+	System.out.println("Deadlock prevention Function?");
+	//int deadlockFunction=sc.nextInt();
+	int deadlockFunction=dbMenuGUI.deadlockFun;
+	System.out.println("deadlockFunction="+deadlockFunction);
+	sc.close();
+	
 
 		actions = new String[num][22];
 

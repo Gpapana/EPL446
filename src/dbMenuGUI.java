@@ -1,4 +1,5 @@
 
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -26,44 +27,49 @@ public class dbMenuGUI extends JFrame implements ActionListener, ChangeListener 
 	static String CautiousWaitingCommand="cautious";
 	static int ClientsNum;
 	private JPanel contentPane;
+	static int deadlockFun;
+	//public static String TSdata[][];
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		
-		String TSdata[][]=new String[26][3];
-		for(int i=0;i<26;i++) {
-			char temp=(char)(i+65);
-			TSdata[i][0]=String.valueOf(temp);
-
-		}
-		for(int i=0;i<26;i++) {
-			for(int j=1;j<3;j++) {
-				TSdata[i][j]="0";
-			}
-		}
-		String[] columnNames = {"Resource",
-				"MaxReadTS",
-				"MaxWriteTS",};
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					dbMenuGUI frame = new dbMenuGUI(TSdata,columnNames);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	//	public static void main(String[] args) {
+	//
+	//		TSdata=new String[26][3];
+	//		for(int i=0;i<26;i++) {
+	//			char temp=(char)(i+65);
+	//			TSdata[i][0]=String.valueOf(temp);
+	//
+	//		}
+	//		for(int i=0;i<26;i++) {
+	//			for(int j=1;j<3;j++) {
+	//				TSdata[i][j]="0";
+	//			}
+	//		}
+	//		String[] columnNames = {"Resource",
+	//				"MaxReadTS",
+	//				"MaxWriteTS",};
+	//		EventQueue.invokeLater(new Runnable() {
+	//			public void run() {
+	//				try {
+	//					dbMenuGUI frame = new dbMenuGUI(TSdata,columnNames);
+	//					frame.setVisible(true);
+	//				} catch (Exception e) {
+	//					e.printStackTrace();
+	//				}
+	//			}
+	//		});
+	//
+	//
+	//	}
 
 	/**
 	 * Create the frame.
 	 * @param columnNames 
+	 * @param pressed 
 	 * @param tSdata 
 	 */
-	public dbMenuGUI(String[][] tSdata, String[] columnNames) {
+	public dbMenuGUI(String[][] TSdata, String[] columnNames) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 493, 504);
 		contentPane = new JPanel();
@@ -130,12 +136,13 @@ public class dbMenuGUI extends JFrame implements ActionListener, ChangeListener 
 
 		JButton btnStart = new JButton("START");
 		btnStart.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent e) {
 				dbMenuGUI.this.setVisible(false);
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {
-							dbGUI frame = new dbGUI(tSdata, columnNames);
+							dbGUI frame = new dbGUI(TSdata, columnNames);
 							frame.setVisible(true);
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -146,7 +153,36 @@ public class dbMenuGUI extends JFrame implements ActionListener, ChangeListener 
 				System.out.println(command);
 				int numofClients=slider.getValue();
 				System.out.println(numofClients);
+				int temp=650;
+				int temp2=0;
+				for(int i=0;i<numofClients;i++){
+					String name="Client"+(i+1);
+					int id=i+1;
+					if(i==numofClients/2){
+						temp=850;
+						temp2=0;
+					}
+					int x=10+temp2*300;
+					int y =temp;
+					temp2++;
+					EventQueue.invokeLater(new Runnable() {
+						public void run() {
+							try {
+								clientGUI frame = new clientGUI(x,y,TSdata,columnNames,id);
+								frame.setVisible(true);
+								frame.setTitle(name);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+					});
+
+				}
+
+				Database.startpressed=true;
+
 			}
+
 		});
 		btnStart.setBounds(26, 389, 89, 23);
 		contentPane.add(btnStart);
@@ -176,18 +212,23 @@ public class dbMenuGUI extends JFrame implements ActionListener, ChangeListener 
 		if(e.getActionCommand().equals(defaultD)){
 			//action
 			System.out.println("default");
+			deadlockFun=0;
 		}	
-		if(e.getActionCommand().equals(WoundWaitCommand)){
-			//action
-			System.out.println("wound");
-		}
+
 		else if(e.getActionCommand().equals(WaitDieCommand)){
 			//action
 			System.out.println("die");
+			deadlockFun=1;
+		}
+		else if(e.getActionCommand().equals(WoundWaitCommand)){
+			//action
+			System.out.println("wound");
+			deadlockFun=2;
 		}
 		else if(e.getActionCommand().equals(CautiousWaitingCommand)){
 			//action
 			System.out.println("cautious");
+			deadlockFun=3;
 		}
 
 	}

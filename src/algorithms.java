@@ -1,4 +1,3 @@
-
 public class algorithms {
 
 	public static int wound_wait(int TSi,int TSj){

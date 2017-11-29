@@ -1,4 +1,5 @@
 
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -20,7 +21,11 @@ public class dbGUI extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
-	private JTable table_1;
+	public static JTable table_1;
+	public static JTextArea textArea;
+	public static JLabel lblTransaction;
+	public static JTextArea textArea_1;
+	
 
 	/**
 	 * Create the frame.
@@ -44,17 +49,21 @@ public class dbGUI extends JFrame {
 		scrollPane.setBounds(20, 57, 260, 313);
 		contentPane.add(scrollPane);
 
-		JTextArea textArea = new JTextArea();
+		 textArea = new JTextArea();
 		scrollPane.setViewportView(textArea);
 		textArea.setEditable(false);
-		textArea.setText(Database.log.toString());
+		String str = "";
+		for(int i=0;i<Database.log.size();i++){
+			str=str+Database.log.get(i).toString();
+		}
+		dbGUI.textArea.setText(str);
 
 		JLabel lblNewTransaction = new JLabel("New Transaction");
 		lblNewTransaction.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewTransaction.setBounds(696, 32, 164, 14);
 		contentPane.add(lblNewTransaction);
 
-		JLabel lblTransaction = new JLabel("transcaction");
+		lblTransaction = new JLabel("transcaction");
 		lblTransaction.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTransaction.setBounds(696, 72, 164, 14);
 		contentPane.add(lblTransaction);
@@ -73,7 +82,7 @@ public class dbGUI extends JFrame {
 		scrollPane_1.setBounds(350, 57, 260, 313);
 		contentPane.add(scrollPane_1);
 
-		JTextArea textArea_1 = new JTextArea();
+		 textArea_1 = new JTextArea();
 		scrollPane_1.setViewportView(textArea_1);
 		textArea_1.setEditable(false);
 
@@ -92,37 +101,7 @@ public class dbGUI extends JFrame {
 		table_1.setModel(model);
 		scrollPane_2.setViewportView(table_1);
 
-		JButton btnNext = new JButton("Next");
-		btnNext.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				//
-				lblTransaction.setText("");
-				//
-				textArea.setText("");
-				for(int i=0; i<TSdata.length;i++){
-					for(int j=0;j<TSdata[0].length;j++){
-						textArea.append(TSdata[i][j]);
-					}
-					textArea.append("\n");
-				}
-				//
-				textArea_1.setText("");
-				for(int i=0; i<TSdata.length;i++){
-					for(int j=0;j<TSdata[0].length;j++){
-						textArea_1.append(TSdata[i][j]);
-					}
-					textArea_1.append("\n");
-				}
-				//
-				TSdata[0][1]="23";
-				DefaultTableModel model1=new DefaultTableModel(TSdata,columnNames);
-				table_1.setModel(model1);
-
-				////
-			}
-		});
-		btnNext.setBounds(25, 416, 134, 23);
-		contentPane.add(btnNext);
+		
 
 
 		JButton btnFinish = new JButton("Finish");
