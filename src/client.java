@@ -28,7 +28,7 @@ public class client extends Thread{
 				}
 				
 				///////////////////////
-				System.out.println("cid="+clientGUI.cid);
+				//System.out.println("cid="+clientGUI.cid);
 			
 				//id=clientGUI.cid;
 			String s=Database.actions[id-1][i];
@@ -90,12 +90,17 @@ public class client extends Thread{
 				}
 				//id=clientGUI.cid;
 				ts=Database.execute(ts, id, par, i);
+				//////////////////////////////////////////////////
+				
+				System.out.println("ts="+ts);
+				//clientGUI.TSc=ts;
 				String str = "";
 				for(int i1=0;i1<Database.log.size();i1++){
 					str=str+Database.log.get(i1).toString();
 				}
 				
 				dbGUI.textArea.setText(str);
+				///////////////////////////////////////
 			}
 
 			if (i%10==0){

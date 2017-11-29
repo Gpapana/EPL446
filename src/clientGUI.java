@@ -19,6 +19,9 @@ public class clientGUI extends JFrame {
 	public static JButton btnNext;
 	public int clientID;
 	public static int cid;
+	//public static  int TSc;
+	public int TimeStamp;
+	int counter=0;
 
 	/**
 	 * Launch the application.
@@ -41,11 +44,11 @@ public class clientGUI extends JFrame {
 	 * @param pressed 
 	 */
 	public clientGUI(int x,int y,String[][]TSdata,String columnNames[],int id) {
-		
+
 		clientID=id;
-		
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(x, y, 218, 162);
+		setBounds(x, y, 210, 155);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -57,35 +60,56 @@ public class clientGUI extends JFrame {
 
 		JLabel lblCurrentTransaction = new JLabel("current transaction");
 		lblCurrentTransaction.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCurrentTransaction.setBounds(24, 11, 135, 14);
+		lblCurrentTransaction.setBounds(10, 11, 119, 14);
 		contentPane.add(lblCurrentTransaction);
 
 		JLabel lblTransaction = new JLabel("");
-		lblTransaction.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTransaction.setBounds(23, 36, 140, 25);
+		lblTransaction.setBounds(20, 36, 103, 14);
 		contentPane.add(lblTransaction);
+		
+		JLabel lblTs = new JLabel("");
+		lblTs.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTs.setBounds(142, 36, 46, 14);
+		contentPane.add(lblTs);
+		
+		JLabel lblTimestamp = new JLabel("TS");
+		lblTimestamp.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTimestamp.setBounds(132, 11, 46, 14);
+		contentPane.add(lblTimestamp);
 		btnNext.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//
 				client.pressed=true;
-//				String str = "";
-//				for(int i=0;i<Database.log.size();i++){
-//					str=str+Database.log.get(i).toString();
-//				}
-//				
-//				dbGUI.textArea.setText(str);
-				dbGUI.lblTransaction.setText("");
+				//				String str = "";
+				//				for(int i=0;i<Database.log.size();i++){
+				//					str=str+Database.log.get(i).toString();
+				//				}
+				//				
+				//				dbGUI.textArea.setText(str);
+
 
 				TSdata[0][1]="23";
 				DefaultTableModel model1=new DefaultTableModel(TSdata,columnNames);
 				dbGUI.table_1.setModel(model1);
-				
+
 				cid=clientID;
-				System.out.println("client GUI id="+clientID);
-				//testing1.pressed=true;
-				
+				//System.out.println("client GUI id="+clientID);
+
+				lblTransaction.setText(Database.actions[clientID-1][counter]);
+				dbGUI.lblTransaction.setText("Client "+clientID+" "+Database.actions[clientID-1][counter]);
+				//				if(Database.actions[clientID-1][counter].equals("C")||Database.actions[clientID-1][counter].equals("A")&& dbMenuGUI.frame1.clientID==clientID){
+				//					dbMenuGUI.frame1.setVisible(false);
+				//				}
+				if(counter<21){
+					counter++;
+				}
+				else{
+					counter=21;
+				}
+				TimeStamp=Database.c[cid-1].ts;
+				lblTs.setText(String.valueOf(TimeStamp));
 				////
-			
+
 			}
 		});
 	}

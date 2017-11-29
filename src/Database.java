@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 //https://github.com/Gpapana/EPL446.git
 public class Database {
-
+	
 	static private char[] A = new char[256];
 	static private char[] B = new char[256];
 	static private char[] C = new char[256];
@@ -42,7 +42,6 @@ public class Database {
 	static int deadlockFunction=0;
 	static boolean startpressed=false;
 	static String TSdata[][];
-	public static int waitforgraph[][];
 
 	public static ArrayList<loginput> log = new ArrayList<loginput>();
 	public static ArrayList<lock> locks = new ArrayList<lock>();
@@ -63,30 +62,23 @@ public class Database {
 			}
 		}
 	}
-
+	
 	static void wake (){
 		for (int i=0; i<num; i++){
 			synchronized (c[i]) {c[i].notify();}
 		}
 	}
-
-	static int updategraph (int id, String[] par,char doc,int pos){//TODO
-
+	
+	static int graph (int id, String[] par){//TODO
 		int des=0;
-
 		for (int i=0; i<locks.size(); i++){
 			lock l=locks.get(i);
-			if ((l.fileName==doc)&&(l.position==pos)&&(l.client!=id)){
-				if(waitforgraph[id][l.client]==1){
-					des=1;
-					return des;
-				}
-				waitforgraph[l.client][id]=1;// thsi means tha id waits l.client
+			if (l.client==id){
 			}
 		}
 		return des;
 	}
-
+	
 	static int findEnemyTS (int id, String[] par) {
 		int enemy=0;
 		char command=par[0].charAt(0);
@@ -101,7 +93,7 @@ public class Database {
 		else{
 			position=Integer.parseInt(par[2]);
 		}
-
+		
 		for (int i=0; i<locks.size(); i++){
 			lock l=locks.get(i);
 			if (l.client!=id){
@@ -116,10 +108,10 @@ public class Database {
 				}
 			}
 		}
-
+		
 		return enemy;
 	}
-
+	
 	static void getLocks (loginput input, int id, int ts){
 		int ok=1;
 		if (input.command=='R' || input.command=='W' || input.command=='D'){
@@ -176,15 +168,15 @@ public class Database {
 					l.position=-1;
 					l.state='X';
 				}
-
-
+				
+				
 				locks.add(l);
 				System.out.println("Client "+l.client+" "+l.state+"-lock on "+l.fileName+" "+l.position);
 			}
-
+			
 		}
 	}
-
+	
 	synchronized static void freeLocks (int id){
 		for (int i=0; i<locks.size(); i++){
 			lock l=locks.get(i);
@@ -209,17 +201,12 @@ public class Database {
 		else{
 			position=Integer.parseInt(par[2]);
 		}
-
+		
 		for (int i=0; i<locks.size(); i++){
 			lock l=locks.get(i);
 			if (l.client!=id){
 				if (l.fileName==document && l.position==position && l.state=='S' && command=='R'){
 					disition=1;
-					////TODO
-					int des=updategraph(id,par,l.fileName,l.position);///pintoma panaxa
-					if(des==1)
-						System.out.println("deadlock detected and prevented");
-					//////
 				}
 				else if (l.fileName==document && l.position==position && l.state=='S' && command=='W'){
 					disition=0; break;
@@ -245,22 +232,22 @@ public class Database {
 				else {disition=1;}
 			}
 		}
-
+		
 		return disition;
 	}
-
+	
 	synchronized static int execute (int ts, int id, String[] par, int i){//TODO
-
+		
 		timestamp++;	
 		if (i==0){
 			ts=timestamp;
 		}
-
+		
 		loginput input = new loginput();
 		input.id=timestamp;
 		input.transactionNum=id;
-
-
+		
+		
 		for (int j=0; j<par.length; j++){
 			if (j==0){
 				input.command=par[0].charAt(0);
@@ -275,24 +262,24 @@ public class Database {
 				input.value=par[3].charAt(0);
 			}
 		}
-
+		
 		getLocks(input, id, ts);
-
-
+		
+		
 		switch(input.command){
-		case 'R': Database.read(input);break;
-		case 'W': Database.write(input);break;
-		case 'D': Database.delete(input);break;
+			case 'R': Database.read(input);break;
+			case 'W': Database.write(input);break;
+			case 'D': Database.delete(input);break;
 		}
-
+		
 		input.TS=ts;
-
+		
 		log.add(input);
-
+		
 
 		return ts;
 	}
-
+	
 	static void read (loginput in){
 
 		//System.out.println("read is here");
@@ -486,55 +473,54 @@ public class Database {
 			Z[i]=' ';
 		}
 
-		///////////////GUI CONNECTION///////////////////////
-		TSdata=new String[26][3];
-		for(int i=0;i<26;i++) {
-			char temp=(char)(i+65);
-			TSdata[i][0]=String.valueOf(temp);
+///////////////GUI CONNECTION///////////////////////
+	TSdata=new String[26][3];
+	for(int i=0;i<26;i++) {
+		char temp=(char)(i+65);
+		TSdata[i][0]=String.valueOf(temp);
 
+	}
+	for(int i=0;i<26;i++) {
+		for(int j=1;j<3;j++) {
+			TSdata[i][j]="0";
 		}
-		for(int i=0;i<26;i++) {
-			for(int j=1;j<3;j++) {
-				TSdata[i][j]="0";
-			}
-		}
-		String[] columnNames = {"Resource",
-				"MaxReadTS",
-				"MaxWriteTS",};
-
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					dbMenuGUI frame = new dbMenuGUI(TSdata,columnNames);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-
-
-		while(startpressed==false){
+	}
+	String[] columnNames = {"Resource",
+			"MaxReadTS",
+			"MaxWriteTS",};
+	
+	EventQueue.invokeLater(new Runnable() {
+		public void run() {
 			try {
-				Thread.sleep(200);
-			} catch(InterruptedException e) {
+				dbMenuGUI frame = new dbMenuGUI(TSdata,columnNames);
+				frame.setVisible(true);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
-		/////////////////////////////////////////////
-		Scanner sc=new Scanner(System.in);
-		System.out.println("Number of cliends?");
-		//num=sc.nextInt();
-		num=dbMenuGUI.ClientsNum;
-		System.out.println("num= "+num);
-
-		waitforgraph=new int[num][num];
-
-		System.out.println("Deadlock prevention Function?");
-		//int deadlockFunction=sc.nextInt();
-		int deadlockFunction=dbMenuGUI.deadlockFun;
-		System.out.println("deadlockFunction="+deadlockFunction);
-		sc.close();
-
+	});
+	
+	
+	while(startpressed==false){
+	    try {
+	       Thread.sleep(200);
+	    } catch(InterruptedException e) {
+	    }
+	}
+	
+	/////////////////////////////////////////////
+	//Scanner sc=new Scanner(System.in);
+	//System.out.println("Number of cliends?");
+	//num=sc.nextInt();
+	num=dbMenuGUI.ClientsNum;
+	//System.out.println("num= "+num);
+	
+	//System.out.println("Deadlock prevention Function?");
+	//int deadlockFunction=sc.nextInt();
+	int deadlockFunction=dbMenuGUI.deadlockFun;
+	//System.out.println("deadlockFunction="+deadlockFunction);
+	//sc.close();
+	
 
 		actions = new String[num][22];
 
@@ -569,4 +555,5 @@ public class Database {
 		printLog();
 		System.out.println("--END--");
 	}
+
 }
