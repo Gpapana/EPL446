@@ -6,7 +6,7 @@ public class algorithms {
 			DESi=1;//wait
 		}
 		else{
-			//DESj=1;//cancel
+			//DESj=1;//kill (j)
 			DESi=0;
 		}
 
@@ -19,7 +19,7 @@ public class algorithms {
 			DESi=1;//wait
 		}
 		else{
-			DESi=0;//cancel
+			DESi=0;//(i) dies
 		}
 		return DESi;
 	}

@@ -2,6 +2,8 @@ public class client extends Thread{
 
 	int id=0;
 	int ts=0;
+	int i=0;
+	int restart=0;
 	//////////////////////////////////////////////////////////////////////
 	static boolean pressed=false;
 	public void run(){
@@ -13,24 +15,20 @@ public class client extends Thread{
 		
 		
 		for (int i=0; i<Database.actions[id-1].length; i++){
-	//////////CONNECTION WITH NEXT BUTTON////////////// 
-				while(true){
-					if (pressed==true && clientGUI.cid==id){
-						break;
-					}
-					else{
-						try {
-						       Thread.sleep(200);
-						    } catch(InterruptedException e) {
-						    }
-					}
-				    
+			//////////CONNECTION WITH NEXT BUTTON////////////// 
+			while(true){
+				if (pressed==true && clientGUI.cid==id){
+					break;
 				}
-				
+				else{
+					try {
+					       Thread.sleep(200);
+					    } 
+					catch(InterruptedException e) {
+					    }
+				}   
+			}
 				///////////////////////
-				//System.out.println("cid="+clientGUI.cid);
-			
-				//id=clientGUI.cid;
 			String s=Database.actions[id-1][i];
 			if (s!=null){
 				par = s.split(" ");
@@ -48,10 +46,10 @@ public class client extends Thread{
 						System.out.println("Client "+id+" continues!!!");
 					}
 					break;
-				case 1: //wound_wait
-					enemyTS=Database.findEnemyTS(id, par);
-					while (algorithms.wound_wait(ts, enemyTS)==0){
-						System.out.println("Client "+id+" waits for "+par[1].charAt(0));
+				case 1: //wound_wait //TODO
+					enemyTS=Database.findEnemyTS(id, par, function);
+					while (algorithms.wound_wait(ts, enemyTS)==1){
+						System.out.println("Client "+id+" wound_wait for "+par[1].charAt(0));
 						synchronized (this) {
 							try {
 								wait();
@@ -60,16 +58,17 @@ public class client extends Thread{
 							}
 						}
 						System.out.println("Client "+id+" continues!!!");
-						enemyTS=Database.findEnemyTS(id, par);
+						enemyTS=Database.findEnemyTS(id, par, function);
 					}
-					if (enemyTS!=0){
+					if (enemyTS!=500){
 						//kill enemy
+						Database.killHim(enemyTS);
 					}
 					break;
 				case 2: //wait_die
-					enemyTS=Database.findEnemyTS(id, par);
-					while (algorithms.wound_wait(ts, enemyTS)==1){
-						System.out.println("Client "+id+" waits for "+par[1].charAt(0));
+					enemyTS=Database.findEnemyTS(id, par, function);
+					while (algorithms.wait_die(ts, enemyTS)==1){
+						System.out.println("Client "+id+" wait_die for "+par[1].charAt(0));
 						synchronized (this) {
 							try {
 								wait();
@@ -78,22 +77,22 @@ public class client extends Thread{
 							}
 						}
 						System.out.println("Client "+id+" continues!!!");
-						enemyTS=Database.findEnemyTS(id, par);
+						enemyTS=Database.findEnemyTS(id, par, function);
 					}
 					if (enemyTS!=0){
 						//suicide
+						Database.killHim(ts);
+						continue;
 					}
 					break;
 				case 3: //cautious_waitning
 					
 					break;
 				}
-				//id=clientGUI.cid;
-				ts=Database.execute(ts, id, par, i);
+				ts=Database.execute(ts, id, par, i+restart);
 				//////////////////////////////////////////////////
 				
 				System.out.println("ts="+ts);
-				//clientGUI.TSc=ts;
 				String str = "";
 				for(int i1=0;i1<Database.log.size();i1++){
 					str=str+Database.log.get(i1).toString();

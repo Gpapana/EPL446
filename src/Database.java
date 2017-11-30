@@ -79,11 +79,22 @@ public class Database {
 		return des;
 	}
 	
-	static int findEnemyTS (int id, String[] par) {
-		int enemy=0;
+	synchronized static int findEnemyTS (int id, String[] par, int fun) {
+		int enemy;
+		if (fun==1){
+			enemy=500;
+		}
+		else{
+			enemy=0;
+		}
 		char command=par[0].charAt(0);
 		if (command=='B' || command=='C' || command=='A'){
-			return 0;
+			if (fun==1){
+				return 500;
+			}
+			else{
+				return 0;
+			}
 		}
 		char document=par[1].charAt(0);
 		int position;
@@ -107,12 +118,20 @@ public class Database {
 					enemy=l.ts; break;
 				}
 			}
+			else{
+				if (fun==1){
+					enemy=500;
+				}
+				else{
+					enemy=0;
+				}
+			}
 		}
 		
 		return enemy;
 	}
 	
-	static void getLocks (loginput input, int id, int ts){
+	synchronized static void getLocks (loginput input, int id, int ts){
 		int ok=1;
 		if (input.command=='R' || input.command=='W' || input.command=='D'){
 			char document=input.document;
@@ -181,8 +200,9 @@ public class Database {
 		for (int i=0; i<locks.size(); i++){
 			lock l=locks.get(i);
 			if (l.client==id){
-				locks.remove(i);
 				System.out.println("Client "+id+": removed lock on "+l.fileName+" "+l.position);
+				locks.remove(i);
+				
 			}
 		}
 	}
@@ -211,6 +231,9 @@ public class Database {
 				else if (l.fileName==document && l.position==position && l.state=='S' && command=='W'){
 					disition=0; break;
 				}
+				else if (l.fileName==document && l.position==position && l.state=='S' && command=='D'){
+					disition=0; break;
+				}
 				else if (l.fileName==document && l.position==position && l.state=='X'){
 					disition=0; break;
 				}
@@ -236,8 +259,36 @@ public class Database {
 		return disition;
 	}
 	
-	synchronized static int execute (int ts, int id, String[] par, int i){//TODO
+	synchronized static void killHim (int ts){
+		int enemyID=0;
+		for (int i=0; i<log.size(); i++){
+			loginput b = log.get(i);
+			if (b.command=='B' && b.TS==ts){
+				enemyID=b.transactionNum;
+				break;
+			}
+		}
 		
+		for (int i=0; i<num; i++){
+			if (c[i].id==enemyID){
+				System.out.println("Client "+enemyID+" killed. A moment of silence pleace!!!");
+				freeLocks (enemyID);
+				freeLocks(enemyID);
+				c[i].i=0;
+				c[i].restart=1;
+				try {
+					wake();
+					c[i].yield();
+					c[i].sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	synchronized static int execute (int ts, int id, String[] par, int i){//TODO
 		timestamp++;	
 		if (i==0){
 			ts=timestamp;
@@ -282,12 +333,9 @@ public class Database {
 	
 	static void read (loginput in){
 
-		//System.out.println("read is here");
 	}
 
 	static void delete (loginput in){
-
-		//System.out.println("delete is here");
 
 		char ch= in.document;
 		char[] tmp = new char[256];
@@ -368,7 +416,6 @@ public class Database {
 	}
 
 	static void write (loginput in){
-		//System.out.println("write is here");
 
 		char ch= in.document;
 		char[] tmp = new char[256];
@@ -430,7 +477,6 @@ public class Database {
 		try{
 			PrintWriter printWriter = new PrintWriter ("Database/"+ch+".txt","UTF-8");
 			for(int j=0;j<tmp.length;j++){
-				//System.out.println("i= "+i+" j= "+j);
 				printWriter.print (tmp[j]+" ");
 			}
 
@@ -509,18 +555,9 @@ public class Database {
 	}
 	
 	/////////////////////////////////////////////
-	//Scanner sc=new Scanner(System.in);
-	//System.out.println("Number of cliends?");
-	//num=sc.nextInt();
+
 	num=dbMenuGUI.ClientsNum;
-	//System.out.println("num= "+num);
-	
-	//System.out.println("Deadlock prevention Function?");
-	//int deadlockFunction=sc.nextInt();
 	int deadlockFunction=dbMenuGUI.deadlockFun;
-	//System.out.println("deadlockFunction="+deadlockFunction);
-	//sc.close();
-	
 
 		actions = new String[num][22];
 
