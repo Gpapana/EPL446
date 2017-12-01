@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
@@ -29,6 +30,7 @@ public class dbMenuGUI extends JFrame implements ActionListener, ChangeListener 
 	private JPanel contentPane;
 	static int deadlockFun;
 	static clientGUI frame1;
+	public static ArrayList<clientGUI> clientsGUI = new ArrayList<clientGUI>();
 	//public static String TSdata[][];
 
 	/**
@@ -126,14 +128,14 @@ public class dbMenuGUI extends JFrame implements ActionListener, ChangeListener 
 		JSlider slider = new JSlider();
 		slider.setBounds(25, 277, 359, 57);
 		contentPane.add(slider);
-		slider.setMinimum(3);
+		slider.setMinimum(2);
 		slider.setMaximum(10);
 		slider.setMajorTickSpacing(1);
 		slider.setMinorTickSpacing(1);
 		slider.addChangeListener(this);
 		slider.setPaintTicks(true);
 		slider.setPaintLabels(true);
-		slider.setValue(3);
+		slider.setValue(2);
 
 		JButton btnStart = new JButton("START");
 		btnStart.addActionListener(new ActionListener() {
@@ -157,6 +159,7 @@ public class dbMenuGUI extends JFrame implements ActionListener, ChangeListener 
 				int temp=410;
 				int temp2=0;
 				for(int i=0;i<numofClients;i++){
+					
 					String name="Client"+(i+1);
 					int id=i+1;
 					if(i==numofClients/3){
@@ -170,12 +173,16 @@ public class dbMenuGUI extends JFrame implements ActionListener, ChangeListener 
 					int x=10+temp2*250;
 					int y =temp;
 					temp2++;
+					int pos=i;
 					EventQueue.invokeLater(new Runnable() {
 						public void run() {
 							try {
-								 frame1 = new clientGUI(x,y,TSdata,columnNames,id);
-								frame1.setVisible(true);
-								frame1.setTitle(name);
+								clientsGUI.add(new clientGUI(x,y,TSdata,columnNames,id));
+								 //frame1 = new clientGUI(x,y,TSdata,columnNames,id);
+								clientsGUI.get(pos).setVisible(true);
+								clientsGUI.get(pos).setTitle(name);
+								//frame1.setVisible(true);
+								//frame1.setTitle(name);
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
