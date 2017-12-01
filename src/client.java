@@ -126,7 +126,17 @@ public class client extends Thread{
 					}
 					break;
 				case 3: //cautious_waitning
-
+					while(Database.updategraph (id,par)==1){
+						System.out.println("Client "+id+" waits for "+par[1].charAt(0));
+						synchronized (this) {
+							try {
+								wait();
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+						}
+						System.out.println("Client "+id+" continues!!!");
+					}
 					break;
 				}
 				ts=Database.execute(ts, id, par, i+restart);
