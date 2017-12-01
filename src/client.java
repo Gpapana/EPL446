@@ -9,24 +9,27 @@ public class client extends Thread{
 	public void run(){
 		Database.threadNum++;
 		id=Database.threadNum;
-		int function=Database.deadlockFunction;
+		int function=dbMenuGUI.deadlockFun;
+		System.out.println("Function = "+function);
 		String[] par = new String[4];
 		int enemyTS=0;
 
 
 		for (int i=0; i<Database.actions[id-1].length; i++){
 			//////////CONNECTION WITH NEXT BUTTON////////////// 
-			while(true){
-				if (pressed==true && clientGUI.cid==id){
-					break;
-				}
-				else{
-					try {
-						Thread.sleep(200);
-					} 
-					catch(InterruptedException e) {
+			if(!dbMenuGUI.auto){
+				while(true){
+					if (pressed==true && dbMenuGUI.clientsGUI.get(id-1).cid==id){
+						break;
 					}
-				}   
+					else{
+						try {
+							Thread.sleep(200);
+						} 
+						catch(InterruptedException e) {
+						}
+					}   
+				}
 			}
 			///////////////////////
 			String s=Database.actions[id-1][i];
@@ -35,7 +38,14 @@ public class client extends Thread{
 				switch (function){
 				case 0: //default
 					while(Database.checkLocks(id,par)==0){
+						dbGUI.textArea_1.append("Client "+id+" waits for "+par[1].charAt(0)+"\n");
 						System.out.println("Client "+id+" waits for "+par[1].charAt(0));
+
+
+						if(!dbMenuGUI.auto){
+
+							dbMenuGUI.clientsGUI.get(id-1).btnNext.setEnabled(false);
+						}
 						synchronized (this) {
 							try {
 								wait();
@@ -43,12 +53,22 @@ public class client extends Thread{
 								e.printStackTrace();
 							}
 						}
+						if(!dbMenuGUI.auto){
+
+							dbMenuGUI.clientsGUI.get(id-1).btnNext.setEnabled(true);
+						}
+						dbGUI.textArea_1.append("Client "+id+" continues!!!"+"\n");
 						System.out.println("Client "+id+" continues!!!");
 					}
+
 					break;
 				case 1: //wound_wait //TODO
 					enemyTS=Database.findEnemyTS(id, par, function);
 					while (algorithms.wound_wait(ts, enemyTS)==1){
+						if(!dbMenuGUI.auto){
+							dbMenuGUI.clientsGUI.get(id-1).btnNext.setEnabled(false);
+						}
+						dbGUI.textArea_1.append("Client "+id+" wound_wait for "+par[1].charAt(0)+"\n");
 						System.out.println("Client "+id+" wound_wait for "+par[1].charAt(0));
 						synchronized (this) {
 							try {
@@ -57,17 +77,29 @@ public class client extends Thread{
 								e.printStackTrace();
 							}
 						}
+						if(!dbMenuGUI.auto){
+							dbMenuGUI.clientsGUI.get(id-1).btnNext.setEnabled(true);
+						}
+						dbGUI.textArea_1.append("Client "+id+" continues!!!"+"\n");
 						System.out.println("Client "+id+" continues!!!");
 						enemyTS=Database.findEnemyTS(id, par, function);
 					}
+
 					if (enemyTS!=500){
 						//kill enemy
-						Database.killHim(enemyTS);
+						int deadID=Database.killHim(enemyTS);
+						dbMenuGUI.clientsGUI.get(deadID-1).counter=0;
+						dbMenuGUI.clientsGUI.get(deadID-1).lblTransaction.setText("B");
 					}
 					break;
 				case 2: //wait_die
 					enemyTS=Database.findEnemyTS(id, par, function);
-					while (algorithms.wait_die(ts, enemyTS)==1){
+					int temp=algorithms.wait_die(ts, enemyTS);
+					while (temp==1){
+						if(!dbMenuGUI.auto){
+							dbMenuGUI.clientsGUI.get(id-1).btnNext.setEnabled(false);
+						}
+						dbGUI.textArea_1.append("Client "+id+" wait_die for "+par[1].charAt(0)+"\n");
 						System.out.println("Client "+id+" wait_die for "+par[1].charAt(0));
 						synchronized (this) {
 							try {
@@ -76,12 +108,20 @@ public class client extends Thread{
 								e.printStackTrace();
 							}
 						}
+						if(!dbMenuGUI.auto){
+							dbMenuGUI.clientsGUI.get(id-1).btnNext.setEnabled(true);
+						}
+						dbGUI.textArea.append("Client "+id+" continues!!!");
 						System.out.println("Client "+id+" continues!!!");
 						enemyTS=Database.findEnemyTS(id, par, function);
+						temp=algorithms.wait_die(ts, enemyTS);
 					}
+
 					if (enemyTS!=0){
 						//suicide
-						Database.killHim(ts);
+						int deadID=Database.killHim(ts);
+						dbMenuGUI.clientsGUI.get(deadID-1).counter=0;
+						dbMenuGUI.clientsGUI.get(deadID-1).lblTransaction.setText("B");
 						continue;
 					}
 					break;
@@ -109,6 +149,7 @@ public class client extends Thread{
 			pressed=false;
 		}
 		Database.freeLocks(id);
+		//Database.freeLocks(id);
 		synchronized (this) {Database.wake();}
 	}
 

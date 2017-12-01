@@ -1,5 +1,4 @@
 
-
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -19,58 +18,60 @@ import javax.swing.SwingConstants;
 import javax.swing.JRadioButton;
 import javax.swing.JSlider;
 import javax.swing.JButton;
+import javax.swing.JTextField;
+import javax.swing.JCheckBox;
 
 public class dbMenuGUI extends JFrame implements ActionListener, ChangeListener {
 
-	static String defaultD="default";
-	static String WoundWaitCommand="wound";
-	static String WaitDieCommand="die";
-	static String CautiousWaitingCommand="cautious";
+	static String defaultD = "default";
+	static String WoundWaitCommand = "wound";
+	static String WaitDieCommand = "die";
+	static String CautiousWaitingCommand = "cautious";
 	static int ClientsNum;
 	private JPanel contentPane;
 	static int deadlockFun;
-	static clientGUI frame1;
+	public static boolean auto = false;
 	public static ArrayList<clientGUI> clientsGUI = new ArrayList<clientGUI>();
-	//public static String TSdata[][];
 
 	/**
 	 * Launch the application.
 	 */
-	//	public static void main(String[] args) {
+	// public static void main(String[] args) {
 	//
-	//		TSdata=new String[26][3];
-	//		for(int i=0;i<26;i++) {
-	//			char temp=(char)(i+65);
-	//			TSdata[i][0]=String.valueOf(temp);
+	// TSdata=new String[26][3];
+	// for(int i=0;i<26;i++) {
+	// char temp=(char)(i+65);
+	// TSdata[i][0]=String.valueOf(temp);
 	//
-	//		}
-	//		for(int i=0;i<26;i++) {
-	//			for(int j=1;j<3;j++) {
-	//				TSdata[i][j]="0";
-	//			}
-	//		}
-	//		String[] columnNames = {"Resource",
-	//				"MaxReadTS",
-	//				"MaxWriteTS",};
-	//		EventQueue.invokeLater(new Runnable() {
-	//			public void run() {
-	//				try {
-	//					dbMenuGUI frame = new dbMenuGUI(TSdata,columnNames);
-	//					frame.setVisible(true);
-	//				} catch (Exception e) {
-	//					e.printStackTrace();
-	//				}
-	//			}
-	//		});
+	// }
+	// for(int i=0;i<26;i++) {
+	// for(int j=1;j<3;j++) {
+	// TSdata[i][j]="0";
+	// }
+	// }
+	// String[] columnNames = {"Resource",
+	// "MaxReadTS",
+	// "MaxWriteTS",};
+	// EventQueue.invokeLater(new Runnable() {
+	// public void run() {
+	// try {
+	// dbMenuGUI frame = new dbMenuGUI(TSdata,columnNames);
+	// frame.setVisible(true);
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// }
+	// });
 	//
 	//
-	//	}
+	// }
 
 	/**
 	 * Create the frame.
-	 * @param columnNames 
-	 * @param pressed 
-	 * @param tSdata 
+	 * 
+	 * @param columnNames
+	 * @param pressed
+	 * @param tSdata
 	 */
 	public dbMenuGUI(String[][] TSdata, String[] columnNames) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -89,20 +90,14 @@ public class dbMenuGUI extends JFrame implements ActionListener, ChangeListener 
 		panel_1.setBounds(33, 72, 149, 89);
 		contentPane.add(panel_1);
 
-		//group for deadlocks
+		// group for deadlocks
 
-		ButtonGroup group1=new ButtonGroup();
-		JRadioButton rdbtnDefault = new JRadioButton("Default",true);
+		ButtonGroup group1 = new ButtonGroup();
+		JRadioButton rdbtnDefault = new JRadioButton("Default", true);
 		panel_1.add(rdbtnDefault);
 		rdbtnDefault.setActionCommand(defaultD);
 		group1.add(rdbtnDefault);
 		rdbtnDefault.addActionListener(this);
-
-		JRadioButton rdbtnWaitdie = new JRadioButton("Wait/Die");
-		panel_1.add(rdbtnWaitdie);
-		rdbtnWaitdie.setActionCommand(WaitDieCommand);
-		group1.add(rdbtnWaitdie);
-		rdbtnWaitdie.addActionListener(this);
 
 		JRadioButton rdbtnWoundwait = new JRadioButton("Wound/Wait");
 		panel_1.add(rdbtnWoundwait);
@@ -110,6 +105,11 @@ public class dbMenuGUI extends JFrame implements ActionListener, ChangeListener 
 		group1.add(rdbtnWoundwait);
 		rdbtnWoundwait.addActionListener(this);
 
+		JRadioButton rdbtnWaitdie = new JRadioButton("Wait/Die");
+		panel_1.add(rdbtnWaitdie);
+		rdbtnWaitdie.setActionCommand(WaitDieCommand);
+		group1.add(rdbtnWaitdie);
+		rdbtnWaitdie.addActionListener(this);
 
 		JRadioButton rdbtnCautiousWaiting = new JRadioButton("Cautious Waiting");
 		panel_1.add(rdbtnCautiousWaiting);
@@ -117,13 +117,11 @@ public class dbMenuGUI extends JFrame implements ActionListener, ChangeListener 
 		group1.add(rdbtnCautiousWaiting);
 		rdbtnCautiousWaiting.addActionListener(this);
 
-
-		//number of clients
+		// number of clients
 		JLabel lblNumberOfCliends = new JLabel("Number of Clients");
 		lblNumberOfCliends.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNumberOfCliends.setBounds(25, 230, 257, 23);
 		contentPane.add(lblNumberOfCliends);
-
 
 		JSlider slider = new JSlider();
 		slider.setBounds(25, 277, 359, 57);
@@ -152,54 +150,51 @@ public class dbMenuGUI extends JFrame implements ActionListener, ChangeListener 
 						}
 					}
 				});
-				String command=	group1.getSelection().getActionCommand();
+				String command = group1.getSelection().getActionCommand();
 				System.out.println(command);
-				int numofClients=slider.getValue();
+				int numofClients = slider.getValue();
 				System.out.println(numofClients);
-				int temp=650;
-				int temp2=0;
-				for(int i=0;i<numofClients;i++){
+				int temp = 410;
+				int temp2 = 0;
+				for (int i = 0; i < numofClients; i++) {
 
-					String name="Client"+(i+1);
-					int id=i+1;
-					if(i==numofClients/2){
-						temp=850;
-						temp2=0;
+					String name = "Client" + (i + 1);
+					int id = i + 1;
+					if (i == numofClients / 3) {
+						temp = 580;
+						temp2 = 0;
 					}
-					int x=10+temp2*300;
-					int y =temp;
+					if (i == (numofClients / 3) * 2) {
+						temp = 750;
+						temp2 = 0;
+					}
+					int x = 10 + temp2 * 250;
+					int y = temp;
 					temp2++;
-					int pos=i;
-					EventQueue.invokeLater(new Runnable() {
-						public void run() {
-							try {
-								clientGUI frame = new clientGUI(x,y,TSdata,columnNames,id);
-								frame.setVisible(true);
-								frame.setTitle(name);
-								clientsGUI.add(new clientGUI(x,y,TSdata,columnNames,id));
-								//frame1 = new clientGUI(x,y,TSdata,columnNames,id);
-								clientsGUI.get(pos).setVisible(true);
-								clientsGUI.get(pos).setTitle(name);
-								//frame1.setVisible(true);
-								//frame1.setTitle(name);
-							} catch (Exception e) {
-								e.printStackTrace();
+					int pos = i;
+					if (!auto) {
+						EventQueue.invokeLater(new Runnable() {
+							public void run() {
+								try {
+									clientsGUI.add(new clientGUI(x, y, TSdata, columnNames, id));
+									clientsGUI.get(pos).setVisible(true);
+									clientsGUI.get(pos).setTitle(name);
+
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
 							}
-						}
-					});
+						});
 
+					}
 				}
-
-				Database.startpressed=true;
+				Database.startpressed = true;
 
 			}
 
 		});
 		btnStart.setBounds(26, 389, 89, 23);
 		contentPane.add(btnStart);
-
-
-
 
 		JButton btnExit = new JButton("EXIT");
 		btnExit.addActionListener(new ActionListener() {
@@ -210,36 +205,38 @@ public class dbMenuGUI extends JFrame implements ActionListener, ChangeListener 
 		btnExit.setBounds(164, 389, 89, 23);
 		contentPane.add(btnExit);
 
-
-
-
-
+		JCheckBox chckbxAuto = new JCheckBox("Auto");
+		chckbxAuto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				auto = chckbxAuto.isSelected();
+			}
+		});
+		chckbxAuto.setBounds(259, 72, 119, 23);
+		contentPane.add(chckbxAuto);
 
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if(e.getActionCommand().equals(defaultD)){
-			//action
+		if (e.getActionCommand().equals(defaultD)) {
+			// action
 			System.out.println("default");
-			deadlockFun=0;
-		}	
-
-		else if(e.getActionCommand().equals(WaitDieCommand)){
-			//action
-			System.out.println("die");
-			deadlockFun=1;
-		}
-		else if(e.getActionCommand().equals(WoundWaitCommand)){
-			//action
+			deadlockFun = 0;
+		} else if (e.getActionCommand().equals(WoundWaitCommand)) {
+			// action
 			System.out.println("wound");
-			deadlockFun=2;
+			deadlockFun = 1;
+		} else if (e.getActionCommand().equals(WaitDieCommand)) {
+			// action
+			System.out.println("die");
+			deadlockFun = 2;
 		}
-		else if(e.getActionCommand().equals(CautiousWaitingCommand)){
-			//action
+
+		else if (e.getActionCommand().equals(CautiousWaitingCommand)) {
+			// action
 			System.out.println("cautious");
-			deadlockFun=3;
+			deadlockFun = 3;
 		}
 
 	}
@@ -247,9 +244,9 @@ public class dbMenuGUI extends JFrame implements ActionListener, ChangeListener 
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		// TODO Auto-generated method stub
-		JSlider source=(JSlider) e.getSource();
-		if(!source.getValueIsAdjusting()){
-			ClientsNum=(int)source.getValue();
+		JSlider source = (JSlider) e.getSource();
+		if (!source.getValueIsAdjusting()) {
+			ClientsNum = (int) source.getValue();
 			System.out.println(ClientsNum);
 		}
 	}

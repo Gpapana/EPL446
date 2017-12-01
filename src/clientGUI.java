@@ -19,9 +19,9 @@ public class clientGUI extends JFrame {
 	public static JButton btnNext;
 	public int clientID;
 	public static int cid;
-	//public static  int TSc;
 	public int TimeStamp;
-	int counter=0;
+	public int counter=0;
+	public JLabel lblTransaction;
 
 	/**
 	 * Launch the application.
@@ -46,6 +46,7 @@ public class clientGUI extends JFrame {
 	public clientGUI(int x,int y,String[][]TSdata,String columnNames[],int id) {
 
 		clientID=id;
+		
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(x, y, 229, 155);
@@ -58,12 +59,12 @@ public class clientGUI extends JFrame {
 		btnNext.setBounds(23, 83, 130, 25);
 		contentPane.add(btnNext);
 
-		JLabel lblCurrentTransaction = new JLabel("current transaction");
+		JLabel lblCurrentTransaction = new JLabel("next transaction");
 		lblCurrentTransaction.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCurrentTransaction.setBounds(10, 11, 119, 14);
 		contentPane.add(lblCurrentTransaction);
 
-		JLabel lblTransaction = new JLabel("");
+		lblTransaction = new JLabel("B");
 		lblTransaction.setBounds(20, 36, 103, 14);
 		contentPane.add(lblTransaction);
 
@@ -81,28 +82,25 @@ public class clientGUI extends JFrame {
 				//
 				client.pressed=true;
 
+					cid=clientID;
+					//System.out.println("client GUI id="+clientID);
 
-
-				TSdata[0][1]="23";
-				DefaultTableModel model1=new DefaultTableModel(TSdata,columnNames);
-				dbGUI.table_1.setModel(model1);
-
-				cid=clientID;
-				//System.out.println("client GUI id="+clientID);
-
-				lblTransaction.setText(Database.actions[clientID-1][counter]);
-				dbGUI.lblTransaction.setText("Client "+clientID+" "+Database.actions[clientID-1][counter]);
-				if(Database.actions[clientID-1][counter].equals("C")||Database.actions[clientID-1][counter].equals("A")){
-					dbMenuGUI.clientsGUI.get(clientID-1).setVisible(false);
+					
+					if(Database.actions[clientID-1][counter].equals("C")||Database.actions[clientID-1][counter].equals("A")){
+						dbMenuGUI.clientsGUI.get(clientID-1).setVisible(false);
+					}
+					if(counter<21){
+					lblTransaction.setText(Database.actions[clientID-1][counter+1]);
+					}
+					dbGUI.lblTransaction.setText("Client "+clientID+" "+Database.actions[clientID-1][counter]);
+					counter++;	
+					TimeStamp=Database.c[cid-1].ts;
+					lblTs.setText(String.valueOf(TimeStamp));
+					////
 				}
+				
 
-				counter++;
-
-				TimeStamp=Database.c[cid-1].ts;
-				lblTs.setText(String.valueOf(TimeStamp));
-				////
-
-			}
+			
 		});
 	}
 }
