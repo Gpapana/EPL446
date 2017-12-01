@@ -3,12 +3,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 //https://github.com/Gpapana/EPL446.git
 public class Database {
-
+	
 	static private char[] A = new char[256];
 	static private char[] B = new char[256];
 	static private char[] C = new char[256];
@@ -38,7 +37,6 @@ public class Database {
 	static client[] c;
 	static int num;
 	static String[][] actions;
-	public static int waitforgraph[][];
 	static int threadNum=0;
 	static int timestamp=0;
 	static int deadlockFunction;
@@ -64,74 +62,23 @@ public class Database {
 			}
 		}
 	}
-
+	
 	static void wake (){
 		for (int i=0; i<num; i++){
 			synchronized (c[i]) {c[i].notify();}
 		}
 	}
 	
-	public static int updategraph (int id, String[] par){//TODO
-		int disition=1;
-		char command=par[0].charAt(0);
-		if (command=='B' || command=='C' || command=='A'){
-			return 1;
-		}
-		char document=par[1].charAt(0);
-		int position;
-		if (command=='D'){
-			position=-1;
-		}
-		else{
-			position=Integer.parseInt(par[2]);
-		}
+	static int graph (int id, String[] par){//TODO
+		int des=0;
 		for (int i=0; i<locks.size(); i++){
 			lock l=locks.get(i);
-
-			if (l.client!=id){
-				if (l.fileName==document && l.position==position && l.state=='S' && command=='W'){
-					waitforgraph[id][l.client]=1;
-					for(int j=0; j<waitforgraph.length;j++){
-						if(waitforgraph[l.client][j]==1){
-							disition=0;
-							waitforgraph[i][l.client]=0; 
-						}
-					}break;
-				}
-				else if (l.fileName==document && l.position==position && l.state=='S' && command=='D'){
-					waitforgraph[id][l.client]=1; 
-					for(int j=0; j<waitforgraph.length;j++){
-						if(waitforgraph[l.client][j]==1){
-							disition=0;
-							waitforgraph[i][l.client]=0; 
-						}
-					}break;
-				}
-				else if (l.fileName==document && l.position==position && l.state=='X'){
-					waitforgraph[id][l.client]=1;
-					for(int j=0; j<waitforgraph.length;j++){
-						if(waitforgraph[l.client][j]==1){
-							disition=0;
-							waitforgraph[i][l.client]=0; 
-						}
-					}break;
-				}
-				else if (l.fileName==document && l.position==-1 && l.state=='X'){
-					waitforgraph[id][l.client]=1; 
-					for(int j=0; j<waitforgraph.length;j++){
-						if(waitforgraph[l.client][j]==1){
-							disition=0;
-							waitforgraph[i][l.client]=0; 
-						}
-					}break;
-				}
-				else {disition=2;
-				}
+			if (l.client==id){
 			}
 		}
-		return disition;
+		return des;
 	}
-
+	
 	synchronized static int findEnemyTS (int id, String[] par, int fun) {
 		int enemy;
 		if (fun==1){
@@ -157,7 +104,7 @@ public class Database {
 		else{
 			position=Integer.parseInt(par[2]);
 		}
-
+		
 		for (int i=0; i<locks.size(); i++){
 			lock l=locks.get(i);
 			if (l.client!=id){
@@ -180,10 +127,10 @@ public class Database {
 				}
 			}
 		}
-
+		
 		return enemy;
 	}
-
+	
 	synchronized static void getLocks (loginput input, int id, int ts){
 		int ok=1;
 		if (input.command=='R' || input.command=='W' || input.command=='D'){
@@ -240,19 +187,19 @@ public class Database {
 					l.position=-1;
 					l.state='X';
 				}
-
-
+				
+				
 				locks.add(l);
 				System.out.println("Client "+l.client+" "+l.state+"-lock on "+l.fileName+" "+l.position);
 			}
-
+			
 		}
 	}
-
+	
 	synchronized static void freeLocks (int id){
 		int counter=0;
 		int continueLoop=1;
-
+		
 		while (continueLoop==1){
 			counter=0;
 			for (int i=0; i<locks.size(); i++){
@@ -267,7 +214,7 @@ public class Database {
 				continueLoop=0;
 			}
 		}
-
+		
 	}
 
 	synchronized static int checkLocks (int id, String[] par){
@@ -284,7 +231,7 @@ public class Database {
 		else{
 			position=Integer.parseInt(par[2]);
 		}
-
+		
 		for (int i=0; i<locks.size(); i++){
 			lock l=locks.get(i);
 			if (l.client!=id){
@@ -318,10 +265,10 @@ public class Database {
 				else {disition=1;}
 			}
 		}
-
+		
 		return disition;
 	}
-
+	
 	synchronized static int killHim (int ts){
 		int enemyID=0;
 		for (int i=0; i<log.size(); i++){
@@ -331,13 +278,12 @@ public class Database {
 				break;
 			}
 		}
-
+		
 		for (int i=0; i<num; i++){
 			if (c[i].id==enemyID){
 				System.out.println("Client "+enemyID+" killed. A moment of silence pleace!!!");
 				freeLocks (enemyID);
 				//freeLocks(enemyID);
-				c[i].i=0;
 				c[i].restart=1;
 				try {
 					wake();
@@ -349,21 +295,21 @@ public class Database {
 				}
 			}
 		}
-
+		
 		return enemyID;
 	}
-
+	
 	synchronized static int execute (int ts, int id, String[] par, int i){//TODO
 		timestamp++;	
 		if (i==0){
 			ts=timestamp;
 		}
-
+		
 		loginput input = new loginput();
 		input.id=timestamp;
 		input.transactionNum=id;
-
-
+		
+		
 		for (int j=0; j<par.length; j++){
 			if (j==0){
 				input.command=par[0].charAt(0);
@@ -378,24 +324,24 @@ public class Database {
 				input.value=par[3].charAt(0);
 			}
 		}
-
+		
 		getLocks(input, id, ts);
-
-
+		
+		
 		switch(input.command){
-		case 'R': Database.read(input);break;
-		case 'W': Database.write(input);break;
-		case 'D': Database.delete(input);break;
+			case 'R': Database.read(input);break;
+			case 'W': Database.write(input);break;
+			case 'D': Database.delete(input);break;
 		}
-
+		
 		input.TS=ts;
-
+		
 		log.add(input);
-
+		
 
 		return ts;
 	}
-
+	
 	static void read (loginput in){
 
 	}
@@ -584,51 +530,45 @@ public class Database {
 			Z[i]=' ';
 		}
 
-		///////////////GUI CONNECTION///////////////////////
-		TSdata=new String[26][3];
-		for(int i=0;i<26;i++) {
-			char temp=(char)(i+65);
-			TSdata[i][0]=String.valueOf(temp);
+///////////////GUI CONNECTION///////////////////////
+	TSdata=new String[26][3];
+	for(int i=0;i<26;i++) {
+		char temp=(char)(i+65);
+		TSdata[i][0]=String.valueOf(temp);
 
+	}
+	for(int i=0;i<26;i++) {
+		for(int j=1;j<3;j++) {
+			TSdata[i][j]="0";
 		}
-		for(int i=0;i<26;i++) {
-			for(int j=1;j<3;j++) {
-				TSdata[i][j]="0";
-			}
-		}
-		String[] columnNames = {"Resource",
-				"MaxReadTS",
-				"MaxWriteTS",};
-
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					dbMenuGUI frame = new dbMenuGUI(TSdata,columnNames);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-
-
-		while(startpressed==false){
+	}
+	String[] columnNames = {"Resource",
+			"MaxReadTS",
+			"MaxWriteTS",};
+	
+	EventQueue.invokeLater(new Runnable() {
+		public void run() {
 			try {
-				Thread.sleep(200);
-			} catch(InterruptedException e) {
+				dbMenuGUI frame = new dbMenuGUI(TSdata,columnNames);
+				frame.setVisible(true);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
+	});
+	
+	
+	while(startpressed==false){
+	    try {
+	       Thread.sleep(200);
+	    } catch(InterruptedException e) {
+	    }
+	}
+	
+	/////////////////////////////////////////////
 
-		/////////////////////////////////////////////
-
-		num=dbMenuGUI.ClientsNum;
-		int deadlockFunction=dbMenuGUI.deadlockFun;
-		//System.out.println("deadlockFunction="+deadlockFunction);
-		//sc.close();
-		waitforgraph=new int [num][num];
-		Arrays.fill(waitforgraph, 0);
-		
-		num=dbMenuGUI.ClientsNum;
+	num=dbMenuGUI.ClientsNum;
+	int deadlockFunction=dbMenuGUI.deadlockFun;
 
 		actions = new String[num][22];
 
@@ -646,6 +586,9 @@ public class Database {
 				e.printStackTrace();
 			}
 		}
+
+		// SOURTES
+
 		c = new client[num]; 
 
 		for (int i=0; i<num; i++){
