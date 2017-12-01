@@ -12,8 +12,8 @@ public class client extends Thread{
 		int function=Database.deadlockFunction;
 		String[] par = new String[4];
 		int enemyTS=0;
-		
-		
+
+
 		for (int i=0; i<Database.actions[id-1].length; i++){
 			//////////CONNECTION WITH NEXT BUTTON////////////// 
 			while(true){
@@ -22,13 +22,13 @@ public class client extends Thread{
 				}
 				else{
 					try {
-					       Thread.sleep(200);
-					    } 
+						Thread.sleep(200);
+					} 
 					catch(InterruptedException e) {
-					    }
+					}
 				}   
 			}
-				///////////////////////
+			///////////////////////
 			String s=Database.actions[id-1][i];
 			if (s!=null){
 				par = s.split(" ");
@@ -86,18 +86,18 @@ public class client extends Thread{
 					}
 					break;
 				case 3: //cautious_waitning
-					
+
 					break;
 				}
 				ts=Database.execute(ts, id, par, i+restart);
 				//////////////////////////////////////////////////
-				
+
 				System.out.println("ts="+ts);
 				String str = "";
 				for(int i1=0;i1<Database.log.size();i1++){
 					str=str+Database.log.get(i1).toString();
 				}
-				
+
 				dbGUI.textArea.setText(str);
 				///////////////////////////////////////
 			}
@@ -105,13 +105,13 @@ public class client extends Thread{
 			if (i%10==0){
 				yield();
 			}
-			
+
 			pressed=false;
 		}
 		Database.freeLocks(id);
 		synchronized (this) {Database.wake();}
 	}
-	
+
 	///////////////////////////////////////////////////////////////////////
-	
+
 }

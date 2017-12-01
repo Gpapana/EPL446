@@ -95,9 +95,9 @@ public class clientGUI extends JFrame {
 				if(Database.actions[clientID-1][counter].equals("C")||Database.actions[clientID-1][counter].equals("A")){
 					dbMenuGUI.clientsGUI.get(clientID-1).setVisible(false);
 				}
-				
+
 				counter++;
-				
+
 				TimeStamp=Database.c[cid-1].ts;
 				lblTs.setText(String.valueOf(TimeStamp));
 				////

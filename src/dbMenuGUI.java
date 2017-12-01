@@ -97,18 +97,18 @@ public class dbMenuGUI extends JFrame implements ActionListener, ChangeListener 
 		rdbtnDefault.setActionCommand(defaultD);
 		group1.add(rdbtnDefault);
 		rdbtnDefault.addActionListener(this);
-		
-				JRadioButton rdbtnWoundwait = new JRadioButton("Wound/Wait");
-				panel_1.add(rdbtnWoundwait);
-				rdbtnWoundwait.setActionCommand(WoundWaitCommand);
-				group1.add(rdbtnWoundwait);
-				rdbtnWoundwait.addActionListener(this);
 
 		JRadioButton rdbtnWaitdie = new JRadioButton("Wait/Die");
 		panel_1.add(rdbtnWaitdie);
 		rdbtnWaitdie.setActionCommand(WaitDieCommand);
 		group1.add(rdbtnWaitdie);
 		rdbtnWaitdie.addActionListener(this);
+
+		JRadioButton rdbtnWoundwait = new JRadioButton("Wound/Wait");
+		panel_1.add(rdbtnWoundwait);
+		rdbtnWoundwait.setActionCommand(WoundWaitCommand);
+		group1.add(rdbtnWoundwait);
+		rdbtnWoundwait.addActionListener(this);
 
 
 		JRadioButton rdbtnCautiousWaiting = new JRadioButton("Cautious Waiting");
@@ -156,29 +156,28 @@ public class dbMenuGUI extends JFrame implements ActionListener, ChangeListener 
 				System.out.println(command);
 				int numofClients=slider.getValue();
 				System.out.println(numofClients);
-				int temp=410;
+				int temp=650;
 				int temp2=0;
 				for(int i=0;i<numofClients;i++){
-					
+
 					String name="Client"+(i+1);
 					int id=i+1;
-					if(i==numofClients/3){
-						temp=580;
+					if(i==numofClients/2){
+						temp=850;
 						temp2=0;
 					}
-					if(i==(numofClients/3)*2){
-						temp=750;
-						temp2=0;
-					}
-					int x=10+temp2*250;
+					int x=10+temp2*300;
 					int y =temp;
 					temp2++;
 					int pos=i;
 					EventQueue.invokeLater(new Runnable() {
 						public void run() {
 							try {
+								clientGUI frame = new clientGUI(x,y,TSdata,columnNames,id);
+								frame.setVisible(true);
+								frame.setTitle(name);
 								clientsGUI.add(new clientGUI(x,y,TSdata,columnNames,id));
-								 //frame1 = new clientGUI(x,y,TSdata,columnNames,id);
+								//frame1 = new clientGUI(x,y,TSdata,columnNames,id);
 								clientsGUI.get(pos).setVisible(true);
 								clientsGUI.get(pos).setTitle(name);
 								//frame1.setVisible(true);
@@ -226,17 +225,17 @@ public class dbMenuGUI extends JFrame implements ActionListener, ChangeListener 
 			System.out.println("default");
 			deadlockFun=0;
 		}	
-		else if(e.getActionCommand().equals(WoundWaitCommand)){
-			//action
-			System.out.println("wound");
-			deadlockFun=1;
-		}
+
 		else if(e.getActionCommand().equals(WaitDieCommand)){
 			//action
 			System.out.println("die");
+			deadlockFun=1;
+		}
+		else if(e.getActionCommand().equals(WoundWaitCommand)){
+			//action
+			System.out.println("wound");
 			deadlockFun=2;
 		}
-		
 		else if(e.getActionCommand().equals(CautiousWaitingCommand)){
 			//action
 			System.out.println("cautious");
