@@ -4,6 +4,7 @@ public class client extends Thread{
 	int ts=0;
 	int i=0;
 	int restart=0;
+	int finished=0;
 	//////////////////////////////////////////////////////////////////////
 	static boolean pressed=false;
 	public void run(){
@@ -13,8 +14,6 @@ public class client extends Thread{
 		System.out.println("Function = "+function);
 		String[] par = new String[4];
 		int enemyTS=0;
-
-
 		for (int i=0; i<Database.actions[id-1].length; i++){
 			//////////CONNECTION WITH NEXT BUTTON////////////// 
 			if(!dbMenuGUI.auto){
@@ -35,6 +34,9 @@ public class client extends Thread{
 			String s=Database.actions[id-1][i];
 			if (s!=null){
 				par = s.split(" ");
+				if(par[0].equals("A")||par[0].equals("C")){
+					finished=1;
+				}
 				switch (function){
 				case 0: //default
 					while(Database.checkLocks(id,par)==0){
@@ -57,7 +59,6 @@ public class client extends Thread{
 						dbGUI.textArea_1.append("Client "+id+" continues!!!"+"\n");
 						System.out.println("Client "+id+" continues!!!");
 					}
-
 					break;
 				case 1: //wound_wait //TODO
 					enemyTS=Database.findEnemyTS(id, par, function);
@@ -136,7 +137,11 @@ public class client extends Thread{
 				case 3: //cautious_waitning
 					int des=Database.updategraph (id,par);
 					while(des==1){//TODO
-						System.out.println("Client "+id+" waits for "+par[1].charAt(0));
+						if(!dbMenuGUI.auto){
+							dbMenuGUI.clientsGUI.get(id-1).btnNext.setEnabled(false);
+						}
+						dbGUI.textArea_1.append("Client "+id+" cautious_waitning for "+par[1].charAt(0)+"\n");
+						System.out.println("Client "+id+" cautious_waitning for "+par[1].charAt(0));
 						synchronized (this) {
 							try {
 								wait();
@@ -144,6 +149,10 @@ public class client extends Thread{
 								e.printStackTrace();
 							}
 						}
+						if(!dbMenuGUI.auto){
+							dbMenuGUI.clientsGUI.get(id-1).btnNext.setEnabled(true);
+						}
+						dbGUI.textArea.append("Client "+id+" continues!!!");
 						System.out.println("Client "+id+" continues!!!");
 						des=Database.updategraph (id,par);
 					}
@@ -172,6 +181,10 @@ public class client extends Thread{
 				}
 
 				dbGUI.textArea.setText(str);
+				if (finished==1){
+					pressed=false;
+					break;
+				}
 				///////////////////////////////////////
 			}
 
@@ -181,6 +194,7 @@ public class client extends Thread{
 
 			pressed=false;
 		}
+		System.out.println("Finished");
 		Database.freeLocks(id);
 		//Database.freeLocks(id);
 		synchronized (this) {Database.wake();}
