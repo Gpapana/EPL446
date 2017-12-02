@@ -21,31 +21,10 @@ public class clientGUI extends JFrame {
 	public int counter=0;
 	public JLabel lblTransaction;
 
-	/**
-	 * Launch the application.
-	 */
-	//	public static void main(String[] args) {
-	//		EventQueue.invokeLater(new Runnable() {
-	//			public void run() {
-	//				try {
-	//					clientGUI frame = new clientGUI();
-	//					frame.setVisible(true);
-	//				} catch (Exception e) {
-	//					e.printStackTrace();
-	//				}
-	//			}
-	//		});
-	//	}
-
-	/**
-	 * Create the frame.
-	 * @param pressed 
-	 */
 	public clientGUI(int x,int y,String[][]TSdata,String columnNames[],int id) {
 
 		clientID=id;
 		
-
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(x, y, 229, 155);
 		contentPane = new JPanel();
@@ -77,12 +56,9 @@ public class clientGUI extends JFrame {
 		contentPane.add(lblTimestamp);
 		btnNext.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//
 				client.pressed=true;
 
 					cid=clientID;
-					//System.out.println("client GUI id="+clientID);
-
 					
 					if(Database.actions[clientID-1][counter].equals("C")||Database.actions[clientID-1][counter].equals("A")){
 						dbMenuGUI.clientsGUI.get(clientID-1).setVisible(false);
@@ -96,9 +72,6 @@ public class clientGUI extends JFrame {
 					lblTs.setText(String.valueOf(TimeStamp));
 					////
 				}
-				
-
-			
 		});
 	}
 }

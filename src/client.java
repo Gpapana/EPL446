@@ -40,10 +40,7 @@ public class client extends Thread{
 					while(Database.checkLocks(id,par)==0){
 						dbGUI.textArea_1.append("Client "+id+" waits for "+par[1].charAt(0)+"\n");
 						System.out.println("Client "+id+" waits for "+par[1].charAt(0));
-
-
 						if(!dbMenuGUI.auto){
-
 							dbMenuGUI.clientsGUI.get(id-1).btnNext.setEnabled(false);
 						}
 						synchronized (this) {
@@ -88,8 +85,14 @@ public class client extends Thread{
 					if (enemyTS!=500){
 						//kill enemy
 						int deadID=Database.killHim(enemyTS);
-						dbMenuGUI.clientsGUI.get(deadID-1).counter=0;
-						dbMenuGUI.clientsGUI.get(deadID-1).lblTransaction.setText("B");
+						dbGUI.textArea_1.append("Client "+id+" died \n");
+						i=-1;
+						if(!dbMenuGUI.auto){
+							dbMenuGUI.clientsGUI.get(deadID-1).counter=1;
+							dbGUI.lblTransaction.setText("Client "+deadID+" "+Database.actions[deadID-1][dbMenuGUI.clientsGUI.get(deadID-1).counter-1]);
+							dbMenuGUI.clientsGUI.get(deadID-1).lblTransaction.setText(Database.actions[deadID-1][dbMenuGUI.clientsGUI.get(deadID-1).counter]);
+						}
+						continue;
 					}
 					break;
 				case 2: //wait_die
@@ -120,8 +123,13 @@ public class client extends Thread{
 					if (enemyTS!=0){
 						//suicide
 						int deadID=Database.killHim(ts);
-						dbMenuGUI.clientsGUI.get(deadID-1).counter=0;
-						dbMenuGUI.clientsGUI.get(deadID-1).lblTransaction.setText("B");
+						i=-1;
+						dbGUI.textArea_1.append("Client "+id+" died \n");
+						if(!dbMenuGUI.auto){
+							dbMenuGUI.clientsGUI.get(deadID-1).counter=1;
+							dbGUI.lblTransaction.setText("Client "+deadID+" "+Database.actions[deadID-1][dbMenuGUI.clientsGUI.get(deadID-1).counter-1]);
+							dbMenuGUI.clientsGUI.get(deadID-1).lblTransaction.setText(Database.actions[deadID-1][dbMenuGUI.clientsGUI.get(deadID-1).counter]);
+						}
 						continue;
 					}
 					break;
@@ -142,11 +150,16 @@ public class client extends Thread{
 					if(des==0){
 						//suicide
 						int deadID=Database.killHim(ts);
-						dbMenuGUI.clientsGUI.get(deadID-1).counter=0;
-						dbMenuGUI.clientsGUI.get(deadID-1).lblTransaction.setText("B");
+						i=-1;
+						dbGUI.textArea_1.append("Client "+id+" died \n");
+						if(!dbMenuGUI.auto){
+							dbMenuGUI.clientsGUI.get(deadID-1).counter=1;
+							dbGUI.lblTransaction.setText("Client "+deadID+" "+Database.actions[deadID-1][dbMenuGUI.clientsGUI.get(deadID-1).counter-1]);
+							dbMenuGUI.clientsGUI.get(deadID-1).lblTransaction.setText(Database.actions[deadID-1][dbMenuGUI.clientsGUI.get(deadID-1).counter]);
+						}
 						continue;
 					}
-					
+					Database.printGraph();
 					break;
 				}
 				ts=Database.execute(ts, id, par, i+restart);

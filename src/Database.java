@@ -71,23 +71,23 @@ public class Database {
 		}
 	}
 
-	static void printGraph(){
+	synchronized static void printGraph(){
 		
 		for(int i=0;i<waitforgraph.length;i++){
 			for(int j=0;j<waitforgraph.length;j++){
 				if(waitforgraph[i][j]==1){
-					System.out.println("client"+i+" waits for client "+j);
+					System.out.println("client_"+(i+1)+" waits for client_"+(j+1));
 				}
 			}
 		}
 	}
 	
 	synchronized static int updategraph (int id, String[] par){//TODO
-		int disition=1; // 0-> kill 1-> continue wait 2-> lock it
-		int flag =0;
+		int disition=1; // 0-> kill // 1-> continue wait // 2-> lock it
+		int flag =1;
 		char command=par[0].charAt(0);
 		if (command=='B' || command=='C' || command=='A'){
-			return 1;
+			return 2;
 		}
 		char document=par[1].charAt(0);
 		int position;
@@ -97,60 +97,53 @@ public class Database {
 		else{
 			position=Integer.parseInt(par[2]);
 		}
-/*
-		for (int i=0; i<num; i++){
-			for(int j=0; j<num; j++){
-				waitforgraph[i][j]=0;
-			}
-		}
-		*/
+
 		for (int i=0; i<locks.size(); i++){
 			lock l=locks.get(i);
 			if (l.client!=id){
 				if ((l.fileName==document && l.position==position)){
-					flag=1;
+					flag=0;
 					if ( l.state=='S' && command=='W'){
-						waitforgraph[id][l.client]=1;
+						waitforgraph[id-1][l.client-1]=1;
 						for(int j=0; j<waitforgraph.length;j++){
-							if(waitforgraph[l.client][j]==1){
+							if(waitforgraph[l.client-1][j]==1){
 								disition=0;
-								waitforgraph[i][l.client]=0; 
+								waitforgraph[id-1][l.client-1]=0; 
 							}
 						}break;
 					}
 					else if ( l.state=='S' && command=='D'){
-						waitforgraph[id][l.client]=1; 
+						waitforgraph[id-1][l.client-1]=1; 
 						for(int j=0; j<waitforgraph.length;j++){
-							if(waitforgraph[l.client][j]==1){
+							if(waitforgraph[l.client-1][j]==1){
 								disition=0;
-								waitforgraph[i][l.client]=0; 
+								waitforgraph[id-1][l.client-1]=0; 
 							}
 						}break;
 					}else if (l.state=='X'){
-						waitforgraph[id][l.client]=1;
+						waitforgraph[id-1][l.client-1]=1;
 						for(int j=0; j<waitforgraph.length;j++){
-							if(waitforgraph[l.client][j]==1){
+							if(waitforgraph[l.client-1][j]==1){
 								disition=0;
-								waitforgraph[i][l.client]=0; 
+								waitforgraph[id-1][l.client-1]=0; 
 							}
 						}break;
 					}
 				}else if(l.fileName==document && l.position==-1 && l.state=='X'){
-					flag=1;
-					waitforgraph[id][l.client]=1;
+					flag=0;
+					waitforgraph[id-1][l.client-1]=1;
 					for(int j=0; j<waitforgraph.length;j++){
-						if(waitforgraph[l.client][j]==1){
+						if(waitforgraph[l.client-1][j]==1){
 							disition=0;
-							waitforgraph[i][l.client]=0; 
+							waitforgraph[id-1][l.client-1]=0; 
 						}
 					}break;
 				}
 			}//end of if id!=client
-			waitforgraph[id][l.client]=0;
+			waitforgraph[id-1][l.client-1]=0;
 		}//for ends here
 		if (flag==1){
 		//	waitforgraph[id][l.client]=1;
-		
 			return 2;
 		}else{
 			return disition;

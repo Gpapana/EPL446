@@ -1,5 +1,3 @@
-
-
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -67,11 +65,6 @@ public class dbGUI extends JFrame {
 		lblTransaction.setBounds(300, 303, 164, 14);
 		contentPane.add(lblTransaction);
 
-
-
-
-
-
 		JLabel lblLocks = new JLabel("DB Response");
 		lblLocks.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLocks.setBounds(280, 24, 135, 31);
@@ -87,9 +80,6 @@ public class dbGUI extends JFrame {
 		textArea_1.setText("");
 
 		DefaultTableModel model=new DefaultTableModel(TSdata,columnNames);
-
-		
-
 
 		JButton btnFinish = new JButton("Finish");
 		btnFinish.setBounds(20, 299, 134, 23);
