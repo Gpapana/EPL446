@@ -88,8 +88,14 @@ public class client extends Thread{
 					if (enemyTS!=500){
 						//kill enemy
 						int deadID=Database.killHim(enemyTS);
-						dbMenuGUI.clientsGUI.get(deadID-1).counter=0;
-						dbMenuGUI.clientsGUI.get(deadID-1).lblTransaction.setText("B");
+						dbGUI.textArea_1.append("Client "+id+" died \n");
+						i=-1;
+						if(!dbMenuGUI.auto){
+						dbMenuGUI.clientsGUI.get(deadID-1).counter=1;
+						dbGUI.lblTransaction.setText("Client "+deadID+" "+Database.actions[deadID-1][dbMenuGUI.clientsGUI.get(deadID-1).counter-1]);
+						dbMenuGUI.clientsGUI.get(deadID-1).lblTransaction.setText(Database.actions[deadID-1][dbMenuGUI.clientsGUI.get(deadID-1).counter]);
+						}
+						continue;
 					}
 					break;
 				case 2: //wait_die
@@ -111,7 +117,7 @@ public class client extends Thread{
 						if(!dbMenuGUI.auto){
 							dbMenuGUI.clientsGUI.get(id-1).btnNext.setEnabled(true);
 						}
-						dbGUI.textArea.append("Client "+id+" continues!!!");
+						dbGUI.textArea_1.append("Client "+id+" continues!!!");
 						System.out.println("Client "+id+" continues!!!");
 						enemyTS=Database.findEnemyTS(id, par, function);
 						temp=algorithms.wait_die(ts, enemyTS);
@@ -120,33 +126,18 @@ public class client extends Thread{
 					if (enemyTS!=0){
 						//suicide
 						int deadID=Database.killHim(ts);
-						dbMenuGUI.clientsGUI.get(deadID-1).counter=0;
-						dbMenuGUI.clientsGUI.get(deadID-1).lblTransaction.setText("B");
+						i=-1;
+						dbGUI.textArea_1.append("Client "+id+" died \n");
+						if(!dbMenuGUI.auto){
+						dbMenuGUI.clientsGUI.get(deadID-1).counter=1;
+						dbGUI.lblTransaction.setText("Client "+deadID+" "+Database.actions[deadID-1][dbMenuGUI.clientsGUI.get(deadID-1).counter-1]);
+						dbMenuGUI.clientsGUI.get(deadID-1).lblTransaction.setText(Database.actions[deadID-1][dbMenuGUI.clientsGUI.get(deadID-1).counter]);
+						}
 						continue;
 					}
 					break;
 				case 3: //cautious_waitning
-					int des=Database.updategraph (id,par);
-					while(des==1){//TODO
-						System.out.println("Client "+id+" waits for "+par[1].charAt(0));
-						synchronized (this) {
-							try {
-								wait();
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
-						}
-						System.out.println("Client "+id+" continues!!!");
-						des=Database.updategraph (id,par);
-					}
-					if(des==0){
-						//suicide
-						int deadID=Database.killHim(ts);
-						dbMenuGUI.clientsGUI.get(deadID-1).counter=0;
-						dbMenuGUI.clientsGUI.get(deadID-1).lblTransaction.setText("B");
-						continue;
-					}
-					
+
 					break;
 				}
 				ts=Database.execute(ts, id, par, i+restart);
