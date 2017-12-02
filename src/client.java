@@ -88,15 +88,9 @@ public class client extends Thread{
 						dbGUI.textArea_1.append("Client "+id+" died \n");
 						i=-1;
 						if(!dbMenuGUI.auto){
-<<<<<<< HEAD
 							dbMenuGUI.clientsGUI.get(deadID-1).counter=1;
 							dbGUI.lblTransaction.setText("Client "+deadID+" "+Database.actions[deadID-1][dbMenuGUI.clientsGUI.get(deadID-1).counter-1]);
 							dbMenuGUI.clientsGUI.get(deadID-1).lblTransaction.setText(Database.actions[deadID-1][dbMenuGUI.clientsGUI.get(deadID-1).counter]);
-=======
-						dbMenuGUI.clientsGUI.get(deadID-1).counter=1;
-						dbGUI.lblTransaction.setText("Client "+deadID+" "+Database.actions[deadID-1][dbMenuGUI.clientsGUI.get(deadID-1).counter-1]);
-						dbMenuGUI.clientsGUI.get(deadID-1).lblTransaction.setText(Database.actions[deadID-1][dbMenuGUI.clientsGUI.get(deadID-1).counter]);
->>>>>>> branch 'master' of https://github.com/Gpapana/EPL446.git
 						}
 						continue;
 					}
@@ -120,7 +114,7 @@ public class client extends Thread{
 						if(!dbMenuGUI.auto){
 							dbMenuGUI.clientsGUI.get(id-1).btnNext.setEnabled(true);
 						}
-						dbGUI.textArea_1.append("Client "+id+" continues!!!");
+						dbGUI.textArea.append("Client "+id+" continues!!!");
 						System.out.println("Client "+id+" continues!!!");
 						enemyTS=Database.findEnemyTS(id, par, function);
 						temp=algorithms.wait_die(ts, enemyTS);
@@ -132,21 +126,14 @@ public class client extends Thread{
 						i=-1;
 						dbGUI.textArea_1.append("Client "+id+" died \n");
 						if(!dbMenuGUI.auto){
-<<<<<<< HEAD
 							dbMenuGUI.clientsGUI.get(deadID-1).counter=1;
 							dbGUI.lblTransaction.setText("Client "+deadID+" "+Database.actions[deadID-1][dbMenuGUI.clientsGUI.get(deadID-1).counter-1]);
 							dbMenuGUI.clientsGUI.get(deadID-1).lblTransaction.setText(Database.actions[deadID-1][dbMenuGUI.clientsGUI.get(deadID-1).counter]);
-=======
-						dbMenuGUI.clientsGUI.get(deadID-1).counter=1;
-						dbGUI.lblTransaction.setText("Client "+deadID+" "+Database.actions[deadID-1][dbMenuGUI.clientsGUI.get(deadID-1).counter-1]);
-						dbMenuGUI.clientsGUI.get(deadID-1).lblTransaction.setText(Database.actions[deadID-1][dbMenuGUI.clientsGUI.get(deadID-1).counter]);
->>>>>>> branch 'master' of https://github.com/Gpapana/EPL446.git
 						}
 						continue;
 					}
 					break;
 				case 3: //cautious_waitning
-<<<<<<< HEAD
 					int des=Database.updategraph (id,par);
 					while(des==1){//TODO
 						System.out.println("Client "+id+" waits for "+par[1].charAt(0));
@@ -173,9 +160,6 @@ public class client extends Thread{
 						continue;
 					}
 					Database.printGraph();
-=======
-
->>>>>>> branch 'master' of https://github.com/Gpapana/EPL446.git
 					break;
 				}
 				ts=Database.execute(ts, id, par, i+restart);
