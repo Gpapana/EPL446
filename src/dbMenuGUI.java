@@ -36,35 +36,6 @@ public class dbMenuGUI extends JFrame implements ActionListener, ChangeListener 
 	/**
 	 * Launch the application.
 	 */
-	// public static void main(String[] args) {
-	//
-	// TSdata=new String[26][3];
-	// for(int i=0;i<26;i++) {
-	// char temp=(char)(i+65);
-	// TSdata[i][0]=String.valueOf(temp);
-	//
-	// }
-	// for(int i=0;i<26;i++) {
-	// for(int j=1;j<3;j++) {
-	// TSdata[i][j]="0";
-	// }
-	// }
-	// String[] columnNames = {"Resource",
-	// "MaxReadTS",
-	// "MaxWriteTS",};
-	// EventQueue.invokeLater(new Runnable() {
-	// public void run() {
-	// try {
-	// dbMenuGUI frame = new dbMenuGUI(TSdata,columnNames);
-	// frame.setVisible(true);
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// }
-	// });
-	//
-	//
-	// }
 
 	/**
 	 * Create the frame.
@@ -154,21 +125,36 @@ public class dbMenuGUI extends JFrame implements ActionListener, ChangeListener 
 				System.out.println(command);
 				int numofClients = slider.getValue();
 				System.out.println(numofClients);
-				int temp = 410;
+				//int temp = 410;
+				int temp = 100;
 				int temp2 = 0;
+				int temp3=600;
 				for (int i = 0; i < numofClients; i++) {
 
 					String name = "Client" + (i + 1);
 					int id = i + 1;
-					if (i == numofClients / 3) {
-						temp = 580;
+				
+					if (i == numofClients / 4) {
+//						temp = 580;
+						temp = 270;
 						temp2 = 0;
 					}
+					if (i == (numofClients / 4) * 2) {
+						//temp = 750;
+						temp = 420;
+						temp2 = 0;
+						temp3=0;
+					}
+					
 					if (i == (numofClients / 3) * 2) {
-						temp = 750;
+						//temp = 750;
+						temp = 600;
 						temp2 = 0;
+						temp3=0;
 					}
-					int x = 10 + temp2 * 250;
+					//int x = 10 + temp2 * 250;
+					//int y = temp;
+					int x = temp3 + temp2 * 250;
 					int y = temp;
 					temp2++;
 					int pos = i;
