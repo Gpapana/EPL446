@@ -497,8 +497,7 @@ public class Database {
 		try{
 			PrintWriter printWriter = new PrintWriter ("Database/"+ch+".txt","UTF-8");
 			for(int j=0;j<tmp;j++){
-				//System.out.println("i= "+i+" j= "+j);
-				printWriter.print (" "+" ");
+				printWriter.println (" ");
 			}
 			// close connection
 			printWriter.close (); 
@@ -832,7 +831,7 @@ public class Database {
 		try{
 			PrintWriter printWriter = new PrintWriter ("Database/"+ch+".txt","UTF-8");
 			for(int j=0;j<tmp;j++){
-				printWriter.print (LOL.get(j)+" ");
+				printWriter.println (LOL.get(j));
 			}
 			// close connection
 			printWriter.close (); 
