@@ -1,13 +1,13 @@
 
 
 public class loginput {
-	int id;
-	int transactionNum;
-	char command;
-	char document;
-	int position;
-	char value;
-	int TS;
+	int id;					//current timestamp
+	int transactionNum;		//client number
+	char command;			//type of command B,R,W,D,C,A
+	char document;			//Document effected
+	int position;			//position in document effected
+	char value;				//value for write/read
+	int TS;					//clients timestamp
 	
 	public String toString(){
 		if (command=='B' || command=='C' || command=='A'){

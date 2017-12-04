@@ -49,6 +49,7 @@ public class Database {
 	public static ArrayList<loginput> log = new ArrayList<loginput>();
 	public static ArrayList<lock> locks = new ArrayList<lock>();
 
+	//prints log
 	static void printLog (){
 		for (int i=0; i<log.size(); i++){
 			loginput l = log.get(i);
@@ -66,12 +67,14 @@ public class Database {
 		}
 	}
 
+	//notifies all to continue to next command
 	static void wake (){
 		for (int i=0; i<num; i++){
 			synchronized (c[i]) {c[i].notifyAll();}
 		}
 	}
 
+	//prints waitforgraph
 	synchronized static void printGraph(){
 
 		for(int i=0;i<waitforgraph.length;i++){
@@ -83,8 +86,9 @@ public class Database {
 		}
 	}
 
+	//updates waitforgraph and returns a decision for cautious waiting 
 	synchronized static int updategraph (int id, String[] par){
-		int disition=1; // 0-> kill // 1-> continue wait // 2-> lock it
+		int decision=1; // 0-> kill // 1-> continue wait // 2-> lock it
 		int flag =1;
 		char command=par[0].charAt(0);
 		if (command=='B' || command=='C' || command=='A'){
@@ -108,7 +112,7 @@ public class Database {
 						waitforgraph[id-1][l.client-1]=1;
 						for(int j=0; j<waitforgraph.length;j++){
 							if(waitforgraph[l.client-1][j]==1){
-								disition=0;
+								decision=0;
 								waitforgraph[id-1][l.client-1]=0; 
 							}
 						}break;
@@ -117,7 +121,7 @@ public class Database {
 						waitforgraph[id-1][l.client-1]=1; 
 						for(int j=0; j<waitforgraph.length;j++){
 							if(waitforgraph[l.client-1][j]==1){
-								disition=0;
+								decision=0;
 								waitforgraph[id-1][l.client-1]=0; 
 							}
 						}break;
@@ -125,7 +129,7 @@ public class Database {
 						waitforgraph[id-1][l.client-1]=1;
 						for(int j=0; j<waitforgraph.length;j++){
 							if(waitforgraph[l.client-1][j]==1){
-								disition=0;
+								decision=0;
 								waitforgraph[id-1][l.client-1]=0; 
 							}
 						}break;
@@ -135,7 +139,7 @@ public class Database {
 					waitforgraph[id-1][l.client-1]=1;
 					for(int j=0; j<waitforgraph.length;j++){
 						if(waitforgraph[l.client-1][j]==1){
-							disition=0;
+							decision=0;
 							waitforgraph[id-1][l.client-1]=0; 
 						}
 					}break;
@@ -144,7 +148,7 @@ public class Database {
 					waitforgraph[id-1][l.client-1]=1;
 					for(int j=0; j<waitforgraph.length;j++){
 						if(waitforgraph[l.client-1][j]==1){
-							disition=0;
+							decision=0;
 							waitforgraph[id-1][l.client-1]=0; 
 						}
 					}break;
@@ -153,7 +157,7 @@ public class Database {
 					waitforgraph[id-1][l.client-1]=1;
 					for(int j=0; j<waitforgraph.length;j++){
 						if(waitforgraph[l.client-1][j]==1){
-							disition=0;
+							decision=0;
 							waitforgraph[id-1][l.client-1]=0; 
 						}
 					}break;
@@ -164,10 +168,11 @@ public class Database {
 		if (flag==1){
 			return 2;
 		}else{
-			return disition;
+			return decision;
 		}
 	}
-
+	
+	//finds who has the document you want 
 	synchronized static int findEnemyTS (int id, String[] par, int fun) {
 		int enemy;
 		if (fun==1){
@@ -225,10 +230,10 @@ public class Database {
 				}
 			}
 		}
-
 		return enemy;
 	}
 
+	//a client locks a document 
 	synchronized static void getLocks (loginput input, int id, int ts){
 		int ok=1;
 		if (input.command=='R' || input.command=='W' || input.command=='D'){
@@ -285,15 +290,13 @@ public class Database {
 					l.position=-1;
 					l.state='X';
 				}
-
-
 				locks.add(l);
 				System.out.println("Client "+l.client+" "+l.state+"-lock on "+l.fileName+" "+l.position);
 			}
-
 		}
 	}
 
+	//releases all locks from a specific client
 	synchronized static void freeLocks (int id){
 		int counter=0;
 		int continueLoop=1;
@@ -369,7 +372,6 @@ public class Database {
 				else {disition=1;}
 			}
 		}
-
 		return disition;
 	}
 
@@ -383,7 +385,6 @@ public class Database {
 				break;
 			}
 		}
-
 		for (int i=0; i<num; i++){
 			if (c[i].id==enemyID){
 				System.out.println("Client "+enemyID+" killed. A moment of silence pleace!!!");
@@ -1019,7 +1020,7 @@ public class Database {
 			for(int j=0; j<num; j++){
 				waitforgraph[i][j]=0;
 			}
-			File fl = new File ("cliends/client"+(i+1)+".txt");
+			File fl = new File ("clients/client"+(i+1)+".txt");
 			try {
 				Scanner sc1=new Scanner(fl);
 				int j=0;
