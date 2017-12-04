@@ -68,7 +68,7 @@ public class Database {
 
 	static void wake (){
 		for (int i=0; i<num; i++){
-			synchronized (c[i]) {c[i].notify();}
+			synchronized (c[i]) {c[i].notifyAll();}
 		}
 	}
 
@@ -102,7 +102,7 @@ public class Database {
 		for (int i=0; i<locks.size(); i++){
 			lock l=locks.get(i);
 			if (l.client!=id){
-				if ((l.fileName==document && l.position==position)){
+				if (l.fileName==document && l.position==position){
 					flag=0;
 					if ( l.state=='S' && command=='W'){
 						waitforgraph[id-1][l.client-1]=1;
@@ -144,7 +144,6 @@ public class Database {
 			waitforgraph[id-1][l.client-1]=0;
 		}//for ends here
 		if (flag==1){
-			//	waitforgraph[id][l.client]=1;
 			return 2;
 		}else{
 			return disition;
@@ -402,6 +401,7 @@ public class Database {
 		case 'D': Database.delete(input);break;
 		case 'A': Database.abort(input);break;
 		}
+		
 		input.TS=ts;
 		log.add(input);
 		return ts;
@@ -511,7 +511,6 @@ public class Database {
 	@SuppressWarnings("unchecked")
 	static void write (loginput in){
 
-		int tmp=0;
 		char ch= in.document;
 		int pos=in.position;
 		ArrayList<Character> LOL = new ArrayList<Character>();
@@ -526,7 +525,6 @@ public class Database {
 			A.add(in.value);
 		}
 		LOL=(ArrayList<Character>) A.clone();
-		tmp=A.size();
 		break;
 		case 'B':   if(pos<=B.size()){
 			B.set(pos-1, in.value);
@@ -537,7 +535,6 @@ public class Database {
 			B.add(in.value);
 		}
 		LOL=(ArrayList<Character>) B.clone();
-		tmp=B.size();
 		break;
 		case 'C':   if(pos<=C.size()){
 			C.set(pos-1, in.value);
@@ -548,7 +545,6 @@ public class Database {
 			C.add(in.value);
 		}
 		LOL=(ArrayList<Character>) C.clone();
-		tmp=C.size();
 		break;
 		case 'D':  if(pos<=D.size()){
 			D.set(pos-1, in.value);
@@ -559,7 +555,6 @@ public class Database {
 			D.add(in.value);
 		}
 		LOL=(ArrayList<Character>) D.clone();
-		tmp=D.size();
 		break;
 		case 'E':   if(pos<=E.size()){
 			E.set(pos-1, in.value);
@@ -570,7 +565,6 @@ public class Database {
 			E.add(in.value);
 		}
 		LOL=(ArrayList<Character>) E.clone();
-		tmp=E.size();
 		break;
 		case 'F':   if(pos<=F.size()){
 			F.set(pos-1, in.value);
@@ -581,7 +575,6 @@ public class Database {
 			F.add(in.value);	
 		}
 		LOL=(ArrayList<Character>) F.clone();
-		tmp=F.size();
 		break;
 		case 'G':   if(pos<=G.size()){
 			G.set(pos-1, in.value);
@@ -592,7 +585,6 @@ public class Database {
 			G.add(in.value);
 		}
 		LOL=(ArrayList<Character>) G.clone();
-		tmp=G.size();
 		break;
 		case 'H':   if(pos<=H.size()){
 			H.set(pos-1, in.value);
@@ -602,8 +594,7 @@ public class Database {
 			}
 			H.add(in.value);
 		}
-		LOL=(ArrayList<Character>) H.clone();
-		tmp=H.size();
+		LOL=(ArrayList<Character>) H.clone();;
 		break;
 		case 'I':   if(pos<=I.size()){
 			I.set(pos-1, in.value);
@@ -614,7 +605,6 @@ public class Database {
 			I.add(in.value);
 		}
 		LOL=(ArrayList<Character>) I.clone();
-		tmp=I.size();
 		break;
 		case 'J':   if(pos<=J.size()){
 			J.set(pos-1, in.value);
@@ -625,7 +615,6 @@ public class Database {
 			J.add(in.value);
 		}
 		LOL=(ArrayList<Character>) J.clone();
-		tmp=J.size();
 		break;
 		case 'K':  if(pos<=K.size()){
 			K.set(pos-1, in.value);
@@ -636,7 +625,6 @@ public class Database {
 			K.add(in.value);
 		}
 		LOL=(ArrayList<Character>) K.clone();
-		tmp=K.size();
 		break;
 		case 'L':   if(pos<=L.size()){
 			L.set(pos-1, in.value);
@@ -647,7 +635,6 @@ public class Database {
 			L.add(in.value);
 		}
 		LOL=(ArrayList<Character>) L.clone();
-		tmp=L.size();
 		break;
 		case 'M':  if(pos<=M.size()){
 			M.set(pos-1, in.value);
@@ -658,7 +645,6 @@ public class Database {
 			M.add(in.value);
 		}
 		LOL=(ArrayList<Character>) M.clone();
-		tmp=M.size();
 		break;
 		case 'N':   if(pos<=N.size()){
 			N.set(pos-1, in.value);
@@ -669,7 +655,6 @@ public class Database {
 			N.add(in.value);
 		}
 		LOL=(ArrayList<Character>) N.clone();
-		tmp=N.size();
 		break;
 		case 'O':  if(pos<=O.size()){
 			O.set(pos-1, in.value);
@@ -680,7 +665,6 @@ public class Database {
 			O.add(in.value);
 		}
 		LOL=(ArrayList<Character>) O.clone();
-		tmp=O.size();
 		break;
 		case 'P':  if(pos<=P.size()){
 			P.set(pos-1, in.value);
@@ -691,7 +675,6 @@ public class Database {
 			P.add(in.value);
 		}
 		LOL=(ArrayList<Character>) P.clone();
-		tmp=P.size();
 		break;
 		case 'Q':  if(pos<=Q.size()){
 			Q.set(pos-1, in.value);
@@ -702,7 +685,6 @@ public class Database {
 			Q.add(in.value);
 		}
 		LOL=(ArrayList<Character>) Q.clone();
-		tmp=Q.size();
 		break;
 		case 'R':  if(pos<=R.size()){
 			R.set(pos-1, in.value);
@@ -713,7 +695,6 @@ public class Database {
 			R.add(in.value);
 		}
 		LOL=(ArrayList<Character>) R.clone();
-		tmp=R.size();
 		break;
 		case 'S':  if(pos<=S.size()){
 			S.set(pos-1, in.value);
@@ -724,7 +705,6 @@ public class Database {
 			S.add(in.value);
 		}
 		LOL=(ArrayList<Character>) S.clone();
-		tmp=S.size();
 		break;
 		case 'T':  if(pos<=T.size()){
 			T.set(pos-1, in.value);
@@ -735,7 +715,6 @@ public class Database {
 			T.add(in.value);
 		}
 		LOL=(ArrayList<Character>) T.clone();
-		tmp=T.size();
 		break;
 		case 'U':  if(pos<=U.size()){
 			U.set(pos-1, in.value);
@@ -746,7 +725,6 @@ public class Database {
 			U.add(in.value);
 		}
 		LOL=(ArrayList<Character>) U.clone();
-		tmp=U.size();
 		break;
 		case 'V':  if(pos<=V.size()){
 			V.set(pos-1, in.value);
@@ -757,7 +735,6 @@ public class Database {
 			V.add(in.value);
 		}
 		LOL=(ArrayList<Character>) V.clone();
-		tmp=V.size();
 		break;
 		case 'W': if(pos<=W.size()){
 			W.set(pos-1, in.value);
@@ -768,7 +745,6 @@ public class Database {
 			W.add(in.value);
 		}
 		LOL=(ArrayList<Character>) W.clone();
-		tmp=W.size();
 		break;
 		case 'X':  if(pos<=X.size()){
 			X.set(pos-1, in.value);
@@ -779,7 +755,6 @@ public class Database {
 			X.add(in.value);
 		}
 		LOL=(ArrayList<Character>) X.clone();
-		tmp=X.size();
 		break;
 		case 'Y':  if(pos<=Y.size()){
 			Y.set(pos-1, in.value);
@@ -790,7 +765,6 @@ public class Database {
 			Y.add(in.value);
 		}
 		LOL=(ArrayList<Character>) Y.clone();
-		tmp=Y.size();
 		break;
 		case 'Z':  if(pos<=Z.size()){
 			Z.set(pos-1, in.value);
@@ -801,7 +775,6 @@ public class Database {
 			Z.add(in.value);
 		}
 		LOL=(ArrayList<Character>) Z.clone();
-		tmp=Z.size();
 		break;
 		}
 
@@ -819,19 +792,22 @@ public class Database {
 
 	@SuppressWarnings("unchecked")
 	static void abort (loginput in){
+		System.out.println("Aborting");
 		ArrayList<Character> LOL = new ArrayList<Character>();
-		for (int p=log.size()-1; p>0; p--){
-			loginput l = log.get(p);
-			if (l.id==in.id && l.command=='B'){
+		for (int p=log.size(); p>0; p--){	
+			loginput l = log.get(p-1);
+			if (l.transactionNum==in.transactionNum && l.command=='B'){
+				System.out.println("Finished Going Back!!!");
 				break;
 			}
-			if (l.id==in.id && l.command=='W'){
+			if (l.transactionNum==in.transactionNum && l.command=='W'){
+				System.out.println("Going Back!!!");
 				char tmp=' ';
 				char ch=l.document;
 				int pos=l.position;
 				for (int j=p; j>0; j--){
-					loginput k = log.get(j);
-					if (l.document==k.document && l.position==k.position && k.command=='W'){
+					loginput k = log.get(j-1);
+					if (l.transactionNum!=k.transactionNum && l.document==k.document && l.position==k.position && k.command=='W' && tmp==' '){
 						tmp=k.value;
 					}
 					switch (ch){
@@ -839,256 +815,107 @@ public class Database {
 						A.set(pos-1, tmp);
 						LOL=(ArrayList<Character>) A.clone();
 						break;
-					case 'B':   if(pos<=B.size()){
-						B.set(pos-1, in.value);
-					}else{
-						for(int i=B.size();i<pos-1;i++){
-							B.add(' ');
-						}
-						B.add(in.value);
-					}
-					LOL=(ArrayList<Character>) B.clone();
-					break;
-					case 'C':   if(pos<=C.size()){
-						C.set(pos-1, in.value);
-					}else{
-						for(int i=C.size();i<pos-1;i++){
-							C.add(' ');
-						}
-						C.add(in.value);
-					}
-					LOL=(ArrayList<Character>) C.clone();
-					break;
-					case 'D':  if(pos<=D.size()){
-						D.set(pos-1, in.value);
-					}else{
-						for(int i=D.size();i<pos-1;i++){
-							D.add(' ');
-						}
-						D.add(in.value);
-					}
-					LOL=(ArrayList<Character>) D.clone();
-					break;
-					case 'E':   if(pos<=E.size()){
-						E.set(pos-1, in.value);
-					}else{
-						for(int i=E.size();i<pos-1;i++){
-							E.add(' ');
-						}
-						E.add(in.value);
-					}
-					LOL=(ArrayList<Character>) E.clone();
-					break;
-					case 'F':   if(pos<=F.size()){
-						F.set(pos-1, in.value);
-					}else{
-						for(int i=F.size();i<pos-1;i++){
-							F.add(' ');
-						}
-						F.add(in.value);	
-					}
-					LOL=(ArrayList<Character>) F.clone();
-					break;
-					case 'G':   if(pos<=G.size()){
-						G.set(pos-1, in.value);
-					}else{
-						for(int i=G.size();i<pos-1;i++){
-							G.add(' ');
-						}
-						G.add(in.value);
-					}
-					LOL=(ArrayList<Character>) G.clone();
-					break;
-					case 'H':   if(pos<=H.size()){
-						H.set(pos-1, in.value);
-					}else{
-						for(int i=H.size();i<pos-1;i++){
-							H.add(' ');
-						}
-						H.add(in.value);
-					}
-					LOL=(ArrayList<Character>) H.clone();
-					break;
-					case 'I':   if(pos<=I.size()){
-						I.set(pos-1, in.value);
-					}else{
-						for(int i=I.size();i<pos-1;i++){
-							I.add(' ');
-						}
-						I.add(in.value);
-					}
-					LOL=(ArrayList<Character>) I.clone();
-					break;
-					case 'J':   if(pos<=J.size()){
-						J.set(pos-1, in.value);
-					}else{
-						for(int i=J.size();i<pos-1;i++){
-							J.add(' ');
-						}
-						J.add(in.value);
-					}
-					LOL=(ArrayList<Character>) J.clone();
-					break;
-					case 'K':  if(pos<=K.size()){
-						K.set(pos-1, in.value);
-					}else{
-						for(int i=K.size();i<pos-1;i++){
-							K.add(' ');
-						}
-						K.add(in.value);
-					}
-					LOL=(ArrayList<Character>) K.clone();
-					break;
-					case 'L':   if(pos<=L.size()){
-						L.set(pos-1, in.value);
-					}else{
-						for(int i=L.size();i<pos-1;i++){
-							L.add(' ');
-						}
-						L.add(in.value);
-					}
-					LOL=(ArrayList<Character>) L.clone();
-					break;
-					case 'M':  if(pos<=M.size()){
-						M.set(pos-1, in.value);
-					}else{
-						for(int i=M.size();i<pos-1;i++){
-							M.add(' ');
-						}
-						M.add(in.value);
-					}
-					LOL=(ArrayList<Character>) M.clone();
-					break;
-					case 'N':   if(pos<=N.size()){
-						N.set(pos-1, in.value);
-					}else{
-						for(int i=N.size();i<pos-1;i++){
-							N.add(' ');
-						}
-						N.add(in.value);
-					}
-					LOL=(ArrayList<Character>) N.clone();
-					break;
-					case 'O':  if(pos<=O.size()){
-						O.set(pos-1, in.value);
-					}else{
-						for(int i=O.size();i<pos-1;i++){
-							O.add(' ');
-						}
-						O.add(in.value);
-					}
-					LOL=(ArrayList<Character>) O.clone();
-					break;
-					case 'P':  if(pos<=P.size()){
-						P.set(pos-1, in.value);
-					}else{
-						for(int i=P.size();i<pos-1;i++){
-							P.add(' ');
-						}
-						P.add(in.value);
-					}
-					LOL=(ArrayList<Character>) P.clone();
-					break;
-					case 'Q':  if(pos<=Q.size()){
-						Q.set(pos-1, in.value);
-					}else{
-						for(int i=Q.size();i<pos-1;i++){
-							Q.add(' ');
-						}
-						Q.add(in.value);
-					}
-					LOL=(ArrayList<Character>) Q.clone();
-					break;
-					case 'R':  if(pos<=R.size()){
-						R.set(pos-1, in.value);
-					}else{
-						for(int i=R.size();i<pos-1;i++){
-							R.add(' ');
-						}
-						R.add(in.value);
-					}
-					LOL=(ArrayList<Character>) R.clone();
-					break;
-					case 'S':  if(pos<=S.size()){
-						S.set(pos-1, in.value);
-					}else{
-						for(int i=S.size();i<pos-1;i++){
-							S.add(' ');
-						}
-						S.add(in.value);
-					}
-					LOL=(ArrayList<Character>) S.clone();
-					break;
-					case 'T':  if(pos<=T.size()){
-						T.set(pos-1, in.value);
-					}else{
-						for(int i=T.size();i<pos-1;i++){
-							T.add(' ');
-						}
-						T.add(in.value);
-					}
-					LOL=(ArrayList<Character>) T.clone();
-					break;
-					case 'U':  if(pos<=U.size()){
-						U.set(pos-1, in.value);
-					}else{
-						for(int i=U.size();i<pos-1;i++){
-							U.add(' ');
-						}
-						U.add(in.value);
-					}
-					LOL=(ArrayList<Character>) U.clone();
-					break;
-					case 'V':  if(pos<=V.size()){
-						V.set(pos-1, in.value);
-					}else{
-						for(int i=V.size();i<pos-1;i++){
-							V.add(' ');
-						}
-						V.add(in.value);
-					}
-					LOL=(ArrayList<Character>) V.clone();
-					break;
-					case 'W': if(pos<=W.size()){
-						W.set(pos-1, in.value);
-					}else{
-						for(int i=W.size();i<pos-1;i++){
-							W.add(' ');
-						}
-						W.add(in.value);
-					}
-					LOL=(ArrayList<Character>) W.clone();
-					break;
-					case 'X':  if(pos<=X.size()){
-						X.set(pos-1, in.value);
-					}else{
-						for(int i=X.size();i<pos-1;i++){
-							X.add(' ');
-						}
-						X.add(in.value);
-					}
-					LOL=(ArrayList<Character>) X.clone();
-					break;
-					case 'Y':  if(pos<=Y.size()){
-						Y.set(pos-1, in.value);
-					}else{
-						for(int i=Y.size();i<pos-1;i++){
-							Y.add(' ');
-						}
-						Y.add(in.value);
-					}
-					LOL=(ArrayList<Character>) Y.clone();
-					break;
-					case 'Z':  if(pos<=Z.size()){
-						Z.set(pos-1, in.value);
-					}else{
-						for(int i=Z.size();i<pos-1;i++){
-							Z.add(' ');
-						}
-						Z.add(in.value);
-					}
-					LOL=(ArrayList<Character>) Z.clone();
-					break;
+					case 'B':
+						B.set(pos-1, tmp);
+						LOL=(ArrayList<Character>) B.clone();
+						break;
+					case 'C': 
+						C.set(pos-1, tmp);
+
+						LOL=(ArrayList<Character>) C.clone();
+						break;
+					case 'D':
+						D.set(pos-1, tmp);
+						LOL=(ArrayList<Character>) D.clone();
+						break;
+					case 'E': 
+						E.set(pos-1, tmp);
+						LOL=(ArrayList<Character>) E.clone();
+						break;
+					case 'F': 
+						F.set(pos-1, tmp);
+						LOL=(ArrayList<Character>) F.clone();
+						break;
+					case 'G': 
+						G.set(pos-1, tmp);
+						LOL=(ArrayList<Character>) G.clone();
+						break;
+					case 'H':
+						H.set(pos-1, tmp);
+						LOL=(ArrayList<Character>) H.clone();
+						break;
+					case 'I': 
+						I.set(pos-1, tmp);
+						LOL=(ArrayList<Character>) I.clone();
+						break;
+					case 'J': 
+						J.set(pos-1, tmp);
+						LOL=(ArrayList<Character>) J.clone();
+						break;
+					case 'K':
+						K.set(pos-1, tmp);
+						LOL=(ArrayList<Character>) K.clone();
+						break;
+					case 'L': 
+						L.set(pos-1, tmp);
+						LOL=(ArrayList<Character>) L.clone();
+						break;
+					case 'M':
+						M.set(pos-1, tmp);
+						LOL=(ArrayList<Character>) M.clone();
+						break;
+					case 'N': 
+						N.set(pos-1, tmp);
+						LOL=(ArrayList<Character>) N.clone();
+						break;
+					case 'O': 
+						O.set(pos-1, tmp);
+						LOL=(ArrayList<Character>) O.clone();
+						break;
+					case 'P': 
+						P.set(pos-1, tmp);
+						LOL=(ArrayList<Character>) P.clone();
+						break;
+					case 'Q': 
+						Q.set(pos-1, tmp);
+						LOL=(ArrayList<Character>) Q.clone();
+						break;
+					case 'R': 
+						R.set(pos-1, tmp);
+						LOL=(ArrayList<Character>) R.clone();
+						break;
+					case 'S': 
+						S.set(pos-1, tmp);
+						LOL=(ArrayList<Character>) S.clone();
+						break;
+					case 'T': 
+						T.set(pos-1, tmp);
+						LOL=(ArrayList<Character>) T.clone();
+						break;
+					case 'U': 
+						U.set(pos-1, tmp);
+						LOL=(ArrayList<Character>) U.clone();
+						break;
+					case 'V': 
+						V.set(pos-1, tmp);
+						LOL=(ArrayList<Character>) V.clone();
+						break;
+					case 'W':
+						W.set(pos-1, tmp);
+						LOL=(ArrayList<Character>) W.clone();
+						break;
+					case 'X': 
+						X.set(pos-1, tmp);
+						LOL=(ArrayList<Character>) X.clone();
+						break;
+					case 'Y': 
+						Y.set(pos-1, tmp);
+						LOL=(ArrayList<Character>) Y.clone();
+						break;
+					case 'Z': 
+						Z.set(pos-1, tmp);
+						LOL=(ArrayList<Character>) Z.clone();
+						break;
 					}
 
 					try{
@@ -1176,7 +1003,6 @@ public class Database {
 			c[i].join();
 		}
 		printLog();
-		//deleteall();
 		System.out.println("--END--");
 	}
 }
