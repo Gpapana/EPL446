@@ -73,8 +73,8 @@ public class randomExecution {
 			}
 
 
-			int com=num.nextInt(2);
-			if(com==1){
+			double com=num.nextDouble();
+			if(com<0.7){
 				writer.print("C");
 			}
 			else{

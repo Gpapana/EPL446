@@ -31,6 +31,7 @@ public class client extends Thread{
 			}
 			///////////////////////
 			String s=Database.actions[id-1][i];
+			int temp;
 			if (s!=null){
 				par = s.split(" ");
 				if(par[0].equals("A")||par[0].equals("C")){
@@ -55,13 +56,14 @@ public class client extends Thread{
 
 							dbMenuGUI.clientsGUI.get(id-1).btnNext.setEnabled(true);
 						}
-						dbGUI.textArea_1.append("Client "+id+" continues!!!"+"\n");
+						dbGUI.textArea_1.append("Client "+id+" continues!!!\n");
 						System.out.println("Client "+id+" continues!!!");
 					}
 					break;
 				case 1: //wound_wait //TODO
 					enemyTS=Database.findEnemyTS(id, par, function);
-					while (algorithms.wound_wait(ts, enemyTS)==1){
+					temp =algorithms.wound_wait(ts, enemyTS);
+					while (temp==1){
 						if(!dbMenuGUI.auto){
 							dbMenuGUI.clientsGUI.get(id-1).btnNext.setEnabled(false);
 						}
@@ -77,9 +79,10 @@ public class client extends Thread{
 						if(!dbMenuGUI.auto){
 							dbMenuGUI.clientsGUI.get(id-1).btnNext.setEnabled(true);
 						}
-						dbGUI.textArea_1.append("Client "+id+" continues!!!"+"\n");
+						dbGUI.textArea_1.append("Client "+id+" continues!!!\n");
 						System.out.println("Client "+id+" continues!!!");
 						enemyTS=Database.findEnemyTS(id, par, function);
+						temp =algorithms.wound_wait(ts, enemyTS);
 					}
 
 					if (enemyTS!=500){
@@ -97,10 +100,10 @@ public class client extends Thread{
 					break;
 				case 2: //wait_die
 					enemyTS=Database.findEnemyTS(id, par, function);
-					int temp=algorithms.wait_die(ts, enemyTS);
+					temp=algorithms.wait_die(ts, enemyTS);
 					while (temp==1){
 						if(!dbMenuGUI.auto){
-							dbMenuGUI.clientsGUI.get(id-1).btnNext.setEnabled(false);
+							dbMenuGUI.clientsGUI.get(id-1).btnNext.setEnabled(false);	
 						}
 						dbGUI.textArea_1.append("Client "+id+" wait_die for "+par[1].charAt(0)+"\n");
 						System.out.println("Client "+id+" wait_die for "+par[1].charAt(0));
@@ -114,7 +117,7 @@ public class client extends Thread{
 						if(!dbMenuGUI.auto){
 							dbMenuGUI.clientsGUI.get(id-1).btnNext.setEnabled(true);
 						}
-						dbGUI.textArea.append("Client "+id+" continues!!!");
+						dbGUI.textArea_1.append("Client "+id+" continues!!!\n");
 						System.out.println("Client "+id+" continues!!!");
 						enemyTS=Database.findEnemyTS(id, par, function);
 						temp=algorithms.wait_die(ts, enemyTS);
@@ -151,7 +154,7 @@ public class client extends Thread{
 						if(!dbMenuGUI.auto){
 							dbMenuGUI.clientsGUI.get(id-1).btnNext.setEnabled(true);
 						}
-						dbGUI.textArea.append("Client "+id+" continues!!!");
+						dbGUI.textArea_1.append("Client "+id+" continues!!!\n");
 						System.out.println("Client "+id+" continues!!!");
 						des=Database.updategraph (id,par);
 					}

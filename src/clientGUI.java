@@ -14,7 +14,7 @@ import javax.swing.SwingConstants;
 public class clientGUI extends JFrame {
 
 	private JPanel contentPane;
-	public static JButton btnNext;
+	public JButton btnNext;
 	public int clientID;
 	public static int cid;
 	public int TimeStamp;

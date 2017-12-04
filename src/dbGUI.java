@@ -49,11 +49,11 @@ public class dbGUI extends JFrame {
 		 textArea = new JTextArea();
 		scrollPane.setViewportView(textArea);
 		textArea.setEditable(false);
-		String str = "";
-		for(int i=0;i<Database.log.size();i++){
-			str=str+Database.log.get(i).toString();
-		}
-		dbGUI.textArea.setText(str);
+//		String str = "";
+//		for(int i=0;i<Database.log.size();i++){
+//			str=str+Database.log.get(i).toString();
+//		}
+//		dbGUI.textArea.setText(str);
 
 		JLabel lblNewTransaction = new JLabel("New Transaction");
 		lblNewTransaction.setHorizontalAlignment(SwingConstants.CENTER);

@@ -130,6 +130,24 @@ public class Database {
 							}
 						}break;
 					}
+				}else if (l.fileName==document && l.state=='X' && command=='D'){
+					flag=0;
+					waitforgraph[id-1][l.client-1]=1;
+					for(int j=0; j<waitforgraph.length;j++){
+						if(waitforgraph[l.client-1][j]==1){
+							disition=0;
+							waitforgraph[id-1][l.client-1]=0; 
+						}
+					}break;
+				}else if (l.fileName==document && l.state=='S' && command=='D'){
+					flag=0;
+					waitforgraph[id-1][l.client-1]=1;
+					for(int j=0; j<waitforgraph.length;j++){
+						if(waitforgraph[l.client-1][j]==1){
+							disition=0;
+							waitforgraph[id-1][l.client-1]=0; 
+						}
+					}break;
 				}else if(l.fileName==document && l.position==-1 && l.state=='X'){
 					flag=0;
 					waitforgraph[id-1][l.client-1]=1;
@@ -182,7 +200,16 @@ public class Database {
 				if (l.fileName==document && l.position==position && l.state=='S' && command=='W'){
 					enemy=l.ts; break;
 				}
+				else if (l.fileName==document && l.position==position && l.state=='S' && command=='D'){
+					enemy=l.ts; break;
+				}
 				else if (l.fileName==document && l.position==position && l.state=='X'){
+					enemy=l.ts; break;
+				}
+				else if (l.fileName==document && l.state=='S' && command=='D'){
+					enemy=l.ts; break;
+				}
+				else if (l.fileName==document && l.state=='X' && command=='D'){
 					enemy=l.ts; break;
 				}
 				else if (l.fileName==document && l.position==-1 && l.state=='X'){
@@ -287,6 +314,7 @@ public class Database {
 		}
 	}
 
+	//checks locks and gives response 
 	synchronized static int checkLocks (int id, String[] par){
 		int disition=1;
 		char command=par[0].charAt(0);
@@ -317,6 +345,12 @@ public class Database {
 				else if (l.fileName==document && l.position==position && l.state=='X'){
 					disition=0; break;
 				}
+				else if (l.fileName==document && l.state=='S' && command=='D'){
+					disition=0; break;
+				}
+				else if (l.fileName==document && l.state=='X' && command=='D'){
+					disition=0; break;
+				}
 				else if (l.fileName==document && l.position==-1 && l.state=='X'){
 					disition=0; break;
 				}
@@ -339,6 +373,7 @@ public class Database {
 		return disition;
 	}
 
+	//kills the client with a specific timestamp
 	synchronized static int killHim (int ts){
 		int enemyID=0;
 		for (int i=0; i<log.size(); i++){
@@ -368,6 +403,7 @@ public class Database {
 		return enemyID;
 	}
 
+	//executes the right command as it comes in to log
 	synchronized static int execute (int ts, int id, String[] par, int i){
 		timestamp++;	
 		if (i==0){
@@ -378,6 +414,7 @@ public class Database {
 		input.id=timestamp;
 		input.transactionNum=id;
 
+		//saves the command in input 
 		for (int j=0; j<par.length; j++){
 			if (j==0){
 				input.command=par[0].charAt(0);
@@ -392,28 +429,31 @@ public class Database {
 				input.value=par[3].charAt(0);
 			}
 		}
-
+		//Requests lock
 		getLocks(input, id, ts);
-
+		//execute the command
 		switch(input.command){
 		case 'R': Database.read(input);break;
 		case 'W': Database.write(input);break;
 		case 'D': Database.delete(input);break;
 		case 'A': Database.abort(input);break;
 		}
-		
+
 		input.TS=ts;
 		log.add(input);
 		return ts;
 	}
 
+	//read from file.
 	static void read (loginput in){
-
+		//no need to implement at this moment
 	}
 
+	//empties the file.
 	static void delete (loginput in){
 		int tmp=0;
 		char ch= in.document;
+		//find the specific file 
 		switch (ch){
 		case 'A':  tmp=A.size();
 		A.clear();
@@ -494,27 +534,27 @@ public class Database {
 		Z.clear();
 		break;
 		}		
+		//write to file
 		try{
 			PrintWriter printWriter = new PrintWriter ("Database/"+ch+".txt","UTF-8");
 			for(int j=0;j<tmp;j++){
-				//System.out.println("i= "+i+" j= "+j);
 				printWriter.println (" ");
 			}
 			// close connection
 			printWriter.close (); 
-
 		}catch(Exception e){
 			System.out.println(e);
 		}
 	}
 
+	//writes in the Specific database file in the right position
 	@SuppressWarnings("unchecked")
 	static void write (loginput in){
 
 		char ch= in.document;
 		int pos=in.position;
 		ArrayList<Character> LOL = new ArrayList<Character>();
-
+		//finds the right file and writes all the arraylist for each file to file
 		switch (ch){
 		case 'A':  if(pos<=A.size()){
 			A.set(pos-1, in.value);
@@ -777,7 +817,7 @@ public class Database {
 		LOL=(ArrayList<Character>) Z.clone();
 		break;
 		}
-
+		//write happens here
 		try{
 			PrintWriter printWriter = new PrintWriter ("Database/"+ch+".txt","UTF-8");
 			for(int j=0;j<LOL.size();j++){
@@ -790,18 +830,18 @@ public class Database {
 		}
 	}
 
+	//in case of abort rollback happens here
 	@SuppressWarnings("unchecked")
 	static void abort (loginput in){
-		System.out.println("Aborting");
 		ArrayList<Character> LOL = new ArrayList<Character>();
+
+		//starts from last log input and moves backwards to the until it finds the beginning of the aborted client
 		for (int p=log.size(); p>0; p--){	
 			loginput l = log.get(p-1);
 			if (l.transactionNum==in.transactionNum && l.command=='B'){
-				System.out.println("Finished Going Back!!!");
 				break;
-			}
+			}//undo the write
 			if (l.transactionNum==in.transactionNum && l.command=='W'){
-				System.out.println("Going Back!!!");
 				char tmp=' ';
 				char ch=l.document;
 				int pos=l.position;
@@ -810,6 +850,7 @@ public class Database {
 					if (l.transactionNum!=k.transactionNum && l.document==k.document && l.position==k.position && k.command=='W' && tmp==' '){
 						tmp=k.value;
 					}
+					//find the file and change it
 					switch (ch){
 					case 'A':  
 						A.set(pos-1, tmp);
@@ -821,7 +862,6 @@ public class Database {
 						break;
 					case 'C': 
 						C.set(pos-1, tmp);
-
 						LOL=(ArrayList<Character>) C.clone();
 						break;
 					case 'D':
@@ -917,7 +957,7 @@ public class Database {
 						LOL=(ArrayList<Character>) Z.clone();
 						break;
 					}
-
+					//write to file
 					try{
 						PrintWriter printWriter = new PrintWriter ("Database/"+ch+".txt","UTF-8");
 						for(int n=0;n<LOL.size();n++){
@@ -992,7 +1032,7 @@ public class Database {
 				e.printStackTrace();
 			}
 		}
-		c = new client[num]; 
+		c = new client[num];
 
 		for (int i=0; i<num; i++){
 			c[i] = new client();
