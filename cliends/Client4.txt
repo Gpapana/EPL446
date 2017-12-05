@@ -1,18 +1,11 @@
 B
-R N 191   
-R Z 83   
-R J 179   
-W G 201 L 
-W R 177 H 
-D L     
-R C 185   
-R J 157   
-R E 236   
-R X 211   
-W I 167 q 
-R O 103   
-R P 65   
-W U 169 M 
-W M 177 R 
-R Q 240   
-C
+R O 71   
+W G 181 h 
+R S 98   
+W A 217 P 
+R I 3   
+R N 193   
+R Q 156   
+W I 150 l 
+W N 71 U 
+A

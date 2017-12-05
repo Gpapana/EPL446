@@ -1,15 +1,9 @@
 B
-W C 234 S 
-R E 169   
-R I 75   
-W B 222 f 
-W U 67 O 
-R S 80   
-R W 177   
-W S 1 F 
-R Y 250   
-R V 255   
+W F 110 d 
+D C     
+W F 241 M 
+W I 214 n 
+R B 98   
+R F 6   
 D E     
-D O     
-R F 29   
-C
+A

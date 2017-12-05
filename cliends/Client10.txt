@@ -1,0 +1,8 @@
+B
+W A 10 c
+R N 147   
+R N 29   
+R G 49   
+R N 170   
+W A 75 c 
+A

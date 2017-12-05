@@ -1,14 +1,10 @@
 B
-R Q 199   
-R A 109   
-R H 20   
-R C 219   
-R C 3   
-R S 186   
-R R 9   
-R K 251   
-R W 60   
-R S 220   
-W N 49 d 
-W V 21 Q 
-A
+R B 98   
+R D 42   
+W R 35 W 
+W N 112 K 
+R P 73   
+W J 53 r 
+W Y 101 n 
+W W 221 Z 
+C
